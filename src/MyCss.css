@@ -1,0 +1,38 @@
+.button {
+    -fx-font: 24px "Serif";
+    -fx-pref-height: 20;
+    -fx-pref-width: 200;
+    -fx-text-fill: white;
+    -fx-padding: 25;
+    -fx-border-insets: 5px;
+    -fx-background-insets: 5px;
+    
+    -fx-background-color: #004080;
+}
+.label {
+    -fx-font: 16px "Serif";
+    -fx-padding: 10;
+    -fx-font-weight:bold;
+    
+}
+
+.labelNav{
+	-fx-alignment:center;
+	-fx-padding: 10;
+}
+
+.navBar{
+	-fx-background-color: #909090;
+}
+
+.sideBarRight {
+     -fx-background-color: #b5e7ff;
+}
+.sideBarLeft {
+     -fx-background-color: #ececec;
+}
+
+.grid{
+	-fx-background-color: #ececec;
+	-fx-width: 100%;
+}
