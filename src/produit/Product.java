@@ -1,7 +1,5 @@
 package produit;
 
-import categorie.Categorie;
-
 public class Product {
 
 	private long id;
@@ -65,8 +63,7 @@ public class Product {
 
 	@Override
 	public String toString() {
-		return "Product [id=" + id + ", designation=" + designation + ", prixVente=" + prixVente + ", prixAchat="
-				+ prixAchat + ", categorie=" + categorie + "]";
+		return getDesignation();
 	}
 
 }

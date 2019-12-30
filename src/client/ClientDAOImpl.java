@@ -6,9 +6,9 @@ import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
 
-import categorie.CategorieDAOImpl;
 import connexion.DAO;
 import connexion.DataConnection;
+import produit.CategorieDAOImpl;
 
 public class ClientDAOImpl implements DAO{
 
@@ -19,10 +19,6 @@ public class ClientDAOImpl implements DAO{
 		DataConnection dc = new DataConnection();
 		connection= dc.getConnection();
 		statement = dc.statement;
-	}
-	
-	public Client find(long id) {
-		return null;
 	}
 	
 	public long create(Object prod) {
@@ -97,10 +93,12 @@ public class ClientDAOImpl implements DAO{
 		}
 	}
 	
-	public Client find(int id) {
+	
+	
+	public Client find(long id) {
 		try {
 			statement = connection.prepareStatement("select * from client where id = ?");
-			statement.setInt(1, id);
+			statement.setLong(1, id);
 			ResultSet rs = statement.executeQuery();
 			while(rs.next()) {
 				return new Client(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6));

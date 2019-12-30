@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
 
-import categorie.CategorieDAOImpl;
 import connexion.DAO;
 import connexion.DataConnection;
 
@@ -20,12 +19,7 @@ public class ProductDAOImpl implements DAO{
 		connection= dc.getConnection();
 		statement = dc.statement;
 	}
-	
-	public Product find(long id) {
 		
-		return null;
-	}
-	
 	public long create(Object prod) {
 		try {
 			Product product = Product.class.cast(prod);
@@ -66,7 +60,6 @@ public class ProductDAOImpl implements DAO{
 		Product product = Product.class.cast(prod);
 		PreparedStatement statement = null;
 		try {
-			System.out.println(product);
 			statement = connection.prepareStatement("update produit set designation=? , prixAchat=? , prixVente=? , categorie=? where produit.id = ?");
 			statement.setString(1, product.getDesignation());
 			statement.setFloat(2, product.getPrixAchat());
@@ -98,10 +91,10 @@ public class ProductDAOImpl implements DAO{
 		}
 	}
 	
-	public Product find(int id) {
+	public Product find(long id) {
 		try {
 			statement = connection.prepareStatement("select * from produit where id = ?");
-			statement.setInt(1, id);
+			statement.setLong(1, id);
 			ResultSet rs = statement.executeQuery();
 			while(rs.next()) {
 				return new Product(rs.getInt(1),rs.getString(2),rs.getFloat(3),rs.getFloat(4),new CategorieDAOImpl().find(rs.getInt(5)));

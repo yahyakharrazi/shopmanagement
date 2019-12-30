@@ -21,8 +21,7 @@ public class Client {
 	
 	@Override
 	public String toString() {
-		return "Client [id=" + id + ", prenom=" + prenom + ", nom=" + nom + ", telephone=" + telephone + ", email="
-				+ email + ", adresse=" + adresse + "]";
+		return getNom();
 	}
 
 	public long getId() {

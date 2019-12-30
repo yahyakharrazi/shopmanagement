@@ -1,9 +1,9 @@
 .button {
     -fx-font: 24px "Serif";
-    -fx-pref-height: 20;
-    -fx-pref-width: 200;
+    -fx-pref-height: 2;
+    -fx-pref-width: 180;
     -fx-text-fill: white;
-    -fx-padding: 25;
+    -fx-padding: 10;
     -fx-border-insets: 5px;
     -fx-background-insets: 5px;
     
