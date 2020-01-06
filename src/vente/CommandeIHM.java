@@ -33,6 +33,9 @@ import produit.ProductDAOImpl;
 
 public class CommandeIHM extends Application {
 
+
+
+
 	BorderPane root = new BorderPane();
 	Scene scene = null;
 	
@@ -40,10 +43,19 @@ public class CommandeIHM extends Application {
 	private static ProductDAOImpl cm = new ProductDAOImpl();
 	private static VenteDAOImpl vm = new VenteDAOImpl();
 
+
+
 	static List<Commande> list = null;
 	static List<Commande> listVente = null;
 	static ObservableList<Product> listProduct = null;
-	
+
+	public CommandeIHM(){
+		list = pm.findAll();
+		listProduct = FXCollections.observableArrayList(cm.findAll());
+	}
+
+
+
 	GridPane grid = new GridPane();
 	HBox navBar = new HBox();
 	VBox sideBarLeft = new VBox();
@@ -74,7 +86,7 @@ public class CommandeIHM extends Application {
 
 	int indexOfTable=-1;
 
-	private void loadCombo() {
+	public void loadCombo() {
 		System.out.println(cm.findAll());
 		comboProduct = new ChoiceBox<Product>(listProduct);
 		comboProduct.getSelectionModel().selectFirst();
@@ -112,11 +124,11 @@ public class CommandeIHM extends Application {
 		
 		TableColumn<Commande, String> colProduct = new TableColumn<Commande, String>("Product");
 		colProduct.setMinWidth(80);
-		colProduct.setCellValueFactory(new PropertyValueFactory<Commande, String>("produit"));
+		colProduct.setCellValueFactory(new PropertyValueFactory<Commande, String>("product"));
 		table.getColumns().add(colProduct);
 	}
 	
-	private void initPanes(){
+	public void initPanes(){
 		ObservableList<Commande> data = FXCollections.observableArrayList(list);
 		FilteredList<Commande> items = new FilteredList<>(data);
 		items.setPredicate(null);
@@ -267,10 +279,7 @@ public class CommandeIHM extends Application {
 
 	@Override
 	public void start(Stage window) throws Exception {
-		list = new ArrayList<Commande>();
-		list = pm.findAll();
-		listProduct = FXCollections.observableArrayList(cm.findAll());
-		
+
 		loadCombo();
 		scene = new Scene(container);
 		window.setTitle("title");

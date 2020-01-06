@@ -1,5 +1,5 @@
-.button {
-    -fx-font: 24px "Serif";
+.sideBarLeft .button {
+    -fx-font: 24px "montserrat";
     -fx-pref-height: 2;
     -fx-pref-width: 180;
     -fx-text-fill: white;
@@ -10,7 +10,7 @@
     -fx-background-color: #004080;
 }
 .label {
-    -fx-font: 16px "Serif";
+    -fx-font: 16px "montserrat";
     -fx-padding: 10;
     -fx-font-weight:bold;
     
@@ -29,10 +29,39 @@
      -fx-background-color: #b5e7ff;
 }
 .sideBarLeft {
-     -fx-background-color: #ececec;
+     /*-fx-background-color: #2d132c;*/
+}
+
+.sideBar{
+    -fx-background-color: #2d132c;
+    -fx-min-width: 240px;
+}
+
+.sideBar .button{
+    -fx-font: 16pt "montserrat";
+    -fx-text-fill: white;
+    -fx-padding: 10px 20px 10px 20px;
+    -fx-background-color: transparent;
+    -fx-border-width: 0 0 0 5;
+    -fx-border-color: #801336;
+    -fx-min-width: 100%;
+    /*-fx-max-width: 100%;*/
+}
+
+.sideBar .button:hover{
+    -fx-background-color: #801336;
+    -fx-border-width: 0 0 0 5;
+    -fx-border-color: #2d132c;
+
 }
 
 .grid{
 	-fx-background-color: #ececec;
 	-fx-width: 100%;
+}
+
+.textField{
+    -fx-background-color: transparent;
+
+    -fx-width: 100%;
 }

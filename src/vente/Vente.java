@@ -56,7 +56,7 @@ public class Vente {
 
 	@Override
 	public String toString() {
-		return "Vente [Id=" + Id + ", date=" + date + ", total=" + total + ", client=" + client + "]";
+		return getId()+"";
 	}
 
 }

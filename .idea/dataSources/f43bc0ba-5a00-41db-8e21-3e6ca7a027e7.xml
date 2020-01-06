@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataSource name="magasinmanagement2@localhost [2]">
-  <database-model serializer="dbm" rdbms="MYSQL" format-version="4.11">
+  <database-model serializer="dbm" dbms="MARIADB" family-id="MARIADB" format-version="4.17">
     <root id="1">
-      <ServerVersion>5.5.5</ServerVersion>
-      <RdbmsFlavour>MariaDB</RdbmsFlavour>
+      <ServerVersion>10.1.30</ServerVersion>
       <DefaultEngine>InnoDB</DefaultEngine>
-      <DefaultTmpEngine>InnoDB</DefaultTmpEngine>
       <DefaultCasing>lower/lower</DefaultCasing>
     </root>
     <schema id="2" parent="1" name="azero">
@@ -28,7 +26,6 @@
     </schema>
     <schema id="8" parent="1" name="magasinmanagement2">
       <Current>1</Current>
-      <Visible>1</Visible>
       <Collation>latin1_swedish_ci</Collation>
     </schema>
     <schema id="9" parent="1" name="miniblog">
@@ -1112,13 +1109,11 @@
     </key>
     <foreign-key id="278" parent="256" name="fk_commande_produit">
       <ColNames>produit</ColNames>
-      <RefSchemaName>magasinmanagement2</RefSchemaName>
       <RefTableName>produit</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
     <foreign-key id="279" parent="256" name="fk_commande_vente">
       <ColNames>vente</ColNames>
-      <RefSchemaName>magasinmanagement2</RefSchemaName>
       <RefTableName>vente</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
@@ -1129,124 +1124,116 @@
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="281" parent="257" name="idVente">
+    <column id="281" parent="257" name="vente">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="282" parent="257" name="num">
+    <column id="282" parent="257" name="total">
       <Position>3</Position>
-      <DataType>int(11)|0s</DataType>
+      <DataType>float|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="283" parent="257" name="montant">
+    <column id="283" parent="257" name="date">
       <Position>4</Position>
-      <DataType>double|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="284" parent="257" name="date">
-      <Position>5</Position>
       <DataType>text|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="285" parent="257" name="type">
-      <Position>6</Position>
+    <column id="284" parent="257" name="reglement">
+      <Position>5</Position>
       <DataType>varchar(10)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="286" parent="257" name="PRIMARY">
+    <key id="285" parent="257" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="287" parent="258" name="id">
+    <column id="286" parent="258" name="id">
       <Position>1</Position>
       <DataType>bigint(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="288" parent="258" name="designation">
+    <column id="287" parent="258" name="designation">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="289" parent="258" name="prixAchat">
+    <column id="288" parent="258" name="prixAchat">
       <Position>3</Position>
       <DataType>float|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="290" parent="258" name="prixVente">
+    <column id="289" parent="258" name="prixVente">
       <Position>4</Position>
       <DataType>float|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="291" parent="258" name="categorie">
+    <column id="290" parent="258" name="categorie">
       <Position>5</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="292" parent="258" name="fk_produit_categorie">
+    <index id="291" parent="258" name="fk_produit_categorie">
       <ColNames>categorie</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="293" parent="258" name="PRIMARY">
+    <key id="292" parent="258" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="294" parent="258" name="fk_produit_categorie">
+    <foreign-key id="293" parent="258" name="fk_produit_categorie">
       <ColNames>categorie</ColNames>
-      <RefSchemaName>magasinmanagement2</RefSchemaName>
       <RefTableName>categorie</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="295" parent="259" name="id">
+    <column id="294" parent="259" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="296" parent="259" name="date">
+    <column id="295" parent="259" name="date">
       <Position>2</Position>
       <DataType>varchar(10)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="297" parent="259" name="client">
+    <column id="296" parent="259" name="client">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="298" parent="259" name="total">
+    <column id="297" parent="259" name="total">
       <Position>4</Position>
       <DataType>float|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="299" parent="259" name="fk_vente_client">
+    <index id="298" parent="259" name="fk_vente_client">
       <ColNames>client</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="300" parent="259" name="PRIMARY">
+    <key id="299" parent="259" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="301" parent="259" name="fk_vente_client">
+    <foreign-key id="300" parent="259" name="fk_vente_client">
       <ColNames>client</ColNames>
-      <RefSchemaName>magasinmanagement2</RefSchemaName>
       <RefTableName>client</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>

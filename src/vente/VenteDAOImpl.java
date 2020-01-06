@@ -98,7 +98,7 @@ public class VenteDAOImpl implements DAO{
 			statement.setLong(1, id);
 			ResultSet rs = statement.executeQuery();
 			while(rs.next()) {
-				return new Vente(rs.getLong(1),rs.getString(2),rs.getFloat(3),new ClientDAOImpl().find(rs.getInt(4)));
+				return new Vente(rs.getLong(1),rs.getString(2),rs.getFloat(4),new ClientDAOImpl().find(rs.getInt(3)));
 			}
 			return null;
 		}

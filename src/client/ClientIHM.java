@@ -26,16 +26,21 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class IHM extends Application {
+public class ClientIHM extends Application {
 
 	BorderPane root = new BorderPane();
-	Scene scene = null;
-	
+	public Scene scene = null;
+
 	private static ClientDAOImpl pm = new ClientDAOImpl();
 
 	static List<Client> list = null;
-	
-	GridPane grid = new GridPane();
+
+	public ClientIHM(){
+		list = new ArrayList<Client>();
+		list = pm.findAll();
+	}
+
+	public GridPane grid = new GridPane();
 	HBox navBar = new HBox();
 	VBox sideBarLeft = new VBox();
 	VBox sideBarRight = new VBox();
@@ -67,12 +72,12 @@ public class IHM extends Application {
 	int indexOfTable=-1;
 	
 	private void resetTextFields() {
-		txtId.setText("");
-		txtNom.setText("");
-		txtPrenom.setText("");
-		txtTelephone.setText("");
-		txtEmail.setText("");
-		txtAdresse.setText("");
+		txtId.clear();
+		txtNom.clear();
+		txtPrenom.clear();
+		txtTelephone.clear();
+		txtEmail.clear();
+		txtAdresse.clear();
 	}
 	
 	private void initTable(ObservableList<Client> data) {
@@ -111,8 +116,8 @@ public class IHM extends Application {
 
 	}
 	
-	private void initPanes(){
-		System.out.println(list);
+	public void initPanes(){
+//		System.out.println(list);
 		ObservableList<Client> data = FXCollections.observableArrayList(list);
 		FilteredList<Client> items = new FilteredList<>(data);
 		items.setPredicate(null);
@@ -255,8 +260,6 @@ public class IHM extends Application {
 
 	@Override
 	public void start(Stage window) throws Exception {
-		list = new ArrayList<Client>();
-		list = pm.findAll();
 		scene = new Scene(container);
 		window.setTitle("title");
 		window.setHeight(600);
