@@ -10,6 +10,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import paiement.Paiement;
+import paiement.PaiementIHM;
+import produit.Product;
+import produit.ProductIHM;
+import vente.Vente;
+import vente.VenteIHM;
 
 public class MainForm extends Application{
 
@@ -49,7 +55,25 @@ public class MainForm extends Application{
 		btnClient.setOnAction(event -> {
 			ClientIHM cihm = new ClientIHM();
 			cihm.initPanes();
-			changeContent(cihm.grid);
+			changeContent(cihm.container);
+		});
+
+		btnProduit.setOnAction(event -> {
+			ProductIHM prdihm = new ProductIHM();
+			prdihm.initPanes();
+			changeContent(prdihm.container);
+		});
+
+		btnVente.setOnAction(event -> {
+			VenteIHM vihm = new VenteIHM();
+			vihm.initPanes();
+			changeContent(vihm.container);
+		});
+
+		btnPaiement.setOnAction(event -> {
+			PaiementIHM pihm = new PaiementIHM();
+			pihm.initPanes();
+			changeContent(pihm.container);
 		});
 	}
 
@@ -66,7 +90,7 @@ public class MainForm extends Application{
 		scene = new Scene(container);
 		window.setTitle("Gestion Magasin");
 		window.setHeight(600);
-		window.setWidth(1000);
+		window.setWidth(1150);
 		initContainer();
 		scene.getStylesheets().add("MyCss.css");
 		window.setScene(scene);

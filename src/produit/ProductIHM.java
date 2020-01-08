@@ -39,12 +39,17 @@ public class ProductIHM extends Application {
 
 	static List<Product> list = null;
 	static ObservableList<Categorie> listCategorie = null;
-	
-	GridPane grid = new GridPane();
+
+	public ProductIHM(){
+		list = pm.findAll();
+		listCategorie = FXCollections.observableArrayList(cm.findAll());
+	}
+
+	public GridPane grid = new GridPane();
 	HBox navBar = new HBox();
-	VBox sideBarLeft = new VBox();
+	HBox sideBarLeft = new HBox();
 	VBox sideBarRight = new VBox();
-	BorderPane container = new BorderPane();
+	public BorderPane container = new BorderPane();
 	
 	Label labelId = new Label("ID : ");
 	Label labelDesignation = new Label("Designation : ");
@@ -52,7 +57,7 @@ public class ProductIHM extends Application {
 	Label labelPrixVente = new Label("PrixVente : ");
 	Label labelCategorie = new Label("Categorie : ");
 	
-	Label labelNav = new Label("This is header ");
+	Label labelNav = new Label("Gestion Produits");
 	
 	TextField txtSearch = new TextField();
 	
@@ -71,7 +76,7 @@ public class ProductIHM extends Application {
 	int indexOfTable=-1;
 
 	private void loadCombo() {
-		System.out.println(cm.findAll());
+//		System.out.println(cm.findAll());
 		comboCategorie = new ChoiceBox<Categorie>(listCategorie);
 		comboCategorie.getSelectionModel().selectFirst();
 	}
@@ -112,7 +117,7 @@ public class ProductIHM extends Application {
 		table.getColumns().add(colCategorie);
 	}
 	
-	private void initPanes(){
+	public void initPanes(){
 		ObservableList<Product> data = FXCollections.observableArrayList(list);
 		FilteredList<Product> items = new FilteredList<>(data);
 		items.setPredicate(null);
@@ -197,13 +202,16 @@ public class ProductIHM extends Application {
 		navBar.getChildren().add(labelNav);
 		
 		sideBarLeft.getChildren().addAll(btnNouveau,btnAjouter,btnModifier,btnSupprimer);
-				
+
+		loadCombo();
+
 		grid.addRow(0, labelId,txtId);
 		grid.addRow(1, labelDesignation,txtDesignation);
 		grid.addRow(2, labelPrixAchat, txtPrixAchat);
 		grid.addRow(3, labelPrixVente, txtPrixVente);
 		grid.addRow(4, labelCategorie, comboCategorie);
-		
+		grid.add(sideBarLeft,0,5,2,1);
+
 		sideBarRight.getChildren().addAll(txtSearch,table);
 		
 		navBar.getStyleClass().add("navBar");
@@ -214,7 +222,7 @@ public class ProductIHM extends Application {
 		
 		
 		container.setTop(navBar);
-		container.setLeft(sideBarLeft);
+//		container.setLeft(sideBarLeft);
 		container.setRight(sideBarRight);
 		container.setCenter(grid);
 		
@@ -235,9 +243,6 @@ public class ProductIHM extends Application {
 		        }
 		     }
 	     });
-	
-
-		
 	}
 
 	public static void main(String[] args) {
@@ -248,11 +253,9 @@ public class ProductIHM extends Application {
 
 	@Override
 	public void start(Stage window) throws Exception {
-		list = new ArrayList<Product>();
 		list = pm.findAll();
 		listCategorie = FXCollections.observableArrayList(cm.findAll());
 		
-		loadCombo();
 		scene = new Scene(container);
 		window.setTitle("title");
 		window.setHeight(600);

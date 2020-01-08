@@ -25,7 +25,7 @@ public class CommandeDAOImpl implements DAO{
 		long id=-1;
 		try {
 			Commande commande = Commande.class.cast(prod);
-			System.out.println(commande);
+//			System.out.println(commande);
 
 			statement = connection.prepareStatement("select * from lignecommande where vente=? and produit=?");
 			statement.setLong(1,commande.getVente().getId());
@@ -78,8 +78,8 @@ public class CommandeDAOImpl implements DAO{
 				sumTotal = rs.getFloat(1);
 			}
 
-			System.out.println(id);
-			System.out.println(sumTotal);
+//			System.out.println(id);
+//			System.out.println(sumTotal);
 			statement = connection.prepareStatement("update vente set total=? where id = ?");
 			statement.setFloat(1, sumTotal);
 			statement.setLong(2, id);
@@ -134,13 +134,12 @@ public class CommandeDAOImpl implements DAO{
 			while(rs.next()) {
 				l.add(find(rs.getInt(1)));
 			}
-			System.out.println(l);
+//			System.out.println(l);
 			return l;
 		}
 		catch(Exception ex) {
 			ex.printStackTrace();
-			l = null;
-			return l;
+			return null;
 		}
 	}
 	

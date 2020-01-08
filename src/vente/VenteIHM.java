@@ -31,28 +31,37 @@ public class VenteIHM extends Application {
 
 	BorderPane root = new BorderPane();
 	Scene scene = null;
-	
-	private static VenteDAOImpl pm = new VenteDAOImpl();
-	private static ClientDAOImpl cm = new ClientDAOImpl();
-	private  static CommandeDAOImpl cmd = new CommandeDAOImpl();
 
 	static List<Vente> list = null;
 	static ObservableList<Client> listClient = null;
 	static ObservableList<Commande> listCommand = null;
 
-	GridPane grid = new GridPane();
-	GridPane gridCommande = new GridPane();
+	private static VenteDAOImpl pm = new VenteDAOImpl();
+	private static ClientDAOImpl cm = new ClientDAOImpl();
+	private  static CommandeDAOImpl cmd = new CommandeDAOImpl();
+
+	public VenteIHM(){
+		list = pm.findAll();
+		listCommand = FXCollections.observableArrayList(cmd.findAll());
+		listClient = FXCollections.observableArrayList(cm.findAll());
+
+	}
+
+
+
+	public GridPane grid = new GridPane();
+	public GridPane gridCommande = new GridPane();
 	HBox navBar = new HBox();
-	VBox sideBarLeft = new VBox();
+	HBox sideBarLeft = new HBox();
 	VBox sideBarRight = new VBox();
-	BorderPane container = new BorderPane();
+	public BorderPane container = new BorderPane();
 	
 	Label labelId = new Label("ID : ");
 	Label labelDate = new Label("Date : ");
 	Label labelTotal = new Label("Total : ");
 	Label labelClient = new Label("Client : ");
 	
-	Label labelNav = new Label("This is header ");
+	Label labelNav = new Label("Gestion ventes");
 	
 	TextField txtSearch = new TextField();
 	
@@ -71,8 +80,8 @@ public class VenteIHM extends Application {
 	int indexOfTable=-1;
 
 	private void loadCombo() {
-		System.out.println(pm.findAll());
-		System.out.println(pm.find(1));
+//		System.out.println(pm.findAll());
+//		System.out.println(pm.find(1));
 		comboClient = new ChoiceBox<Client>(listClient);
 		comboClient.getSelectionModel().selectFirst();
 	}
@@ -109,7 +118,7 @@ public class VenteIHM extends Application {
 
 	}
 	
-	private void initPanes(){
+	public void initPanes(){
 		ObservableList<Vente> data = FXCollections.observableArrayList(list);
 		ObservableList<Commande> dataCommand = FXCollections.observableArrayList(listCommand);
 		FilteredList<Vente> items = new FilteredList<>(data);
@@ -121,71 +130,59 @@ public class VenteIHM extends Application {
     	txtTotal.setDisable(true);
     	txtDate.setDisable(true);
 
-		btnAjouter.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-				try {
-					Vente v = new Vente(1, LocalDate.now().toString(),0, cm.find(comboClient.getValue().getId()));
+		btnAjouter.setOnAction(e -> {
+			try {
+				Vente v = new Vente(1, LocalDate.now().toString(),0, cm.find(comboClient.getValue().getId()));
 //						System.out.println("before create : " + cm.find(comboClient.getValue().getId()));
-					long id = pm.create(v);
-					if(id > 0) {
-						v.setId(id);
-						data.add(v);
-						resetTextFields();
-					}
+				long id = pm.create(v);
+				if(id > 0) {
+					v.setId(id);
+					data.add(v);
+					resetTextFields();
 				}
-				catch(Exception ex) {
-					ex.printStackTrace();
-				}
+			}
+			catch(Exception ex) {
+				ex.printStackTrace();
 			}
 		});
 				
-		btnNouveau.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-				resetTextFields();
-				table.getSelectionModel().clearSelection();
-			}
+		btnNouveau.setOnAction(e -> {
+			resetTextFields();
+			table.getSelectionModel().clearSelection();
 		});
 		
-		btnModifier.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-				if(txtId.getText().length()!=0) {
-					Vente v =pm.find(Integer.parseInt(txtId.getText()));
-					if(v!=null) {
-						v.setDate(txtDate.getText());
-						v.setTotal(Float.valueOf(txtTotal.getText()));
-						v.setClient(cm.find(comboClient.getValue().getId()));
-						data.remove(indexOfTable, indexOfTable+1);
-						data.add(indexOfTable+1,v);
-						pm.update(v);
-						table.getSelectionModel().clearSelection();
-						resetTextFields();
-					}
+		btnModifier.setOnAction(e -> {
+			if(txtId.getText().length()!=0) {
+				Vente v =pm.find(Integer.parseInt(txtId.getText()));
+				if(v!=null) {
+					v.setDate(txtDate.getText());
+					v.setTotal(Float.valueOf(txtTotal.getText()));
+					v.setClient(cm.find(comboClient.getValue().getId()));
+					data.remove(indexOfTable, indexOfTable+1);
+					data.add(indexOfTable+1,v);
+					pm.update(v);
+					table.getSelectionModel().clearSelection();
+					resetTextFields();
 				}
-				else{
-					Alert alertAdd = new Alert(Alert.AlertType.CONFIRMATION);
-					alertAdd.setTitle("Message Here...");
-					alertAdd.setHeaderText("Look, an Information Dialog");
-					alertAdd.setContentText("I have a great message for you!");
-					alertAdd.show();
+			}
+			else{
+				Alert alertAdd = new Alert(Alert.AlertType.CONFIRMATION);
+				alertAdd.setTitle("Message Here...");
+				alertAdd.setHeaderText("Look, an Information Dialog");
+				alertAdd.setContentText("I have a great message for you!");
+				alertAdd.show();
 
-				}
 			}
 		});
 		
-		btnSupprimer.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-				if(txtId.getText()!="" ) {
-					Vente p =pm.find(Integer.parseInt(txtId.getText()));
-					if(p!=null) {
-						pm.delete(p);
-						data.remove(indexOfTable, indexOfTable+1);
-						table.getSelectionModel().clearSelection();
-						resetTextFields();
-					}
+		btnSupprimer.setOnAction(e -> {
+			if(txtId.getText()!="" ) {
+				Vente p =pm.find(Long.parseLong(txtId.getText()));
+				if(p!=null) {
+					pm.delete(p);
+					data.remove(indexOfTable, indexOfTable+1);
+					table.getSelectionModel().clearSelection();
+					resetTextFields();
 				}
 			}
 		});
@@ -212,14 +209,17 @@ public class VenteIHM extends Application {
 		grid.addRow(0, labelId,txtId);
 		grid.addRow(1, labelDate,txtDate);
 		grid.addRow(2, labelTotal, txtTotal);
-		grid.addRow(3, labelClient, comboClient);
-		grid.add( txtSearch,0,4,2,1);
-		grid.add(table,0,5,2,1);
+		loadCombo();
 		CommandeIHM cihm = new CommandeIHM();
 		cihm.loadCombo();
 		cihm.initPanes();
-		sideBarRight.getChildren().addAll(cihm.grid,cihm.btnAjouter,cihm.btnModifier,cihm.btnSupprimer,cihm.table);
-		
+
+		grid.addRow(3, labelClient, comboClient);
+		grid.add(sideBarLeft,0,4,2,1);
+		grid.add( txtSearch,0,5,2,1);
+		grid.add(table,0,6,2,1);
+		sideBarRight.getChildren().addAll(cihm.grid,cihm.table);
+
 		navBar.getStyleClass().add("navBar");
 		navBar.getStyleClass().add("labelNav");
 		sideBarLeft.getStyleClass().add("sideBarLeft");
@@ -228,7 +228,7 @@ public class VenteIHM extends Application {
 		
 		
 		container.setTop(navBar);
-		container.setLeft(sideBarLeft);
+//		container.setLeft(sideBarLeft);
 		container.setRight(sideBarRight);
 		container.setCenter(grid);
 		
@@ -269,16 +269,15 @@ public class VenteIHM extends Application {
 
 	@Override
 	public void start(Stage window) throws Exception {
-		list = new ArrayList<Vente>();
+//		list = new ArrayList<Vente>();
 		list = pm.findAll();
 
-		listCommand = FXCollections.observableArrayList(cmd.findAll());
-
-		listClient = FXCollections.observableArrayList(cm.findAll());
+//		listCommand = FXCollections.observableArrayList(cmd.findAll());
+//
+//		listClient = FXCollections.observableArrayList(cm.findAll());
 		
-		loadCombo();
 		scene = new Scene(container);
-		window.setTitle("title");
+		window.setTitle("");
 		window.setHeight(600);
 		window.setWidth(1000);
 		initPanes();

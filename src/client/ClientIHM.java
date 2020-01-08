@@ -36,23 +36,23 @@ public class ClientIHM extends Application {
 	static List<Client> list = null;
 
 	public ClientIHM(){
-		list = new ArrayList<Client>();
+		list = new ArrayList<>();
 		list = pm.findAll();
 	}
 
 	public GridPane grid = new GridPane();
+	public BorderPane container = new BorderPane();
 	HBox navBar = new HBox();
-	VBox sideBarLeft = new VBox();
+	HBox sideBarLeft = new HBox();
 	VBox sideBarRight = new VBox();
-	BorderPane container = new BorderPane();
-	
+
 	Label labelId = new Label("ID : ");
 	Label labelNom = new Label("Nom : ");
 	Label labelPrenom = new Label("Prenom : ");
 	Label labelTelephone = new Label("Telephone : ");
 	Label labelEmail = new Label("Email : ");
 	Label labelAdresse = new Label("Adresse : ");
-	Label labelNav = new Label("This is header ");
+	Label labelNav = new Label("Gestion clients");
 	
 	TextField txtSearch = new TextField();
 	
@@ -81,48 +81,45 @@ public class ClientIHM extends Application {
 	}
 	
 	private void initTable(ObservableList<Client> data) {
-		System.out.println(data);
 		table.setEditable(true);
 		table.setItems(data);
-		TableColumn<Client, Integer> colId = new TableColumn<Client, Integer>("ID");
+		TableColumn<Client, Long> colId = new TableColumn<>("ID");
 		colId.setMinWidth(50);
-		colId.setCellValueFactory(new PropertyValueFactory<Client, Integer>("Id"));
+		colId.setCellValueFactory(new PropertyValueFactory<>("Id"));
 		table.getColumns().add(colId);
 
-		TableColumn<Client, String> colNom = new TableColumn<Client, String>("NOM");
+		TableColumn<Client, String> colNom = new TableColumn<>("NOM");
 		colNom.setMinWidth(60);
-		colNom.setCellValueFactory(new PropertyValueFactory<Client, String>("nom"));
+		colNom.setCellValueFactory(new PropertyValueFactory<>("nom"));
 		table.getColumns().add(colNom);
 
-		TableColumn<Client, String> colPrenom = new TableColumn<Client, String>("PRENOM");
+		TableColumn<Client, String> colPrenom = new TableColumn<>("PRENOM");
 		colPrenom.setMinWidth(60);
-		colNom.setCellValueFactory(new PropertyValueFactory<Client, String>("prenom"));
+		colPrenom.setCellValueFactory(new PropertyValueFactory<>("prenom"));
 		table.getColumns().add(colPrenom);
 
 		TableColumn<Client, String> colEmail = new TableColumn<Client, String>("EMAIL");
 		colEmail.setMinWidth(60);
-		colEmail.setCellValueFactory(new PropertyValueFactory<Client, String>("email"));
+		colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
 		table.getColumns().add(colEmail);
-		
+
 		TableColumn<Client, String> colTelephone = new TableColumn<Client, String>("TELEPHONE");
 		colTelephone.setMinWidth(60);
-		colNom.setCellValueFactory(new PropertyValueFactory<Client, String>("telephone"));
+		colTelephone.setCellValueFactory(new PropertyValueFactory<>("telephone"));
 		table.getColumns().add(colTelephone);
-		
+
 		TableColumn<Client, String> colAdresse = new TableColumn<Client, String>("ADRESSE");
 		colAdresse.setMinWidth(60);
-		colAdresse.setCellValueFactory(new PropertyValueFactory<Client, String>("adresse"));
+		colAdresse.setCellValueFactory(new PropertyValueFactory<>("adresse"));
 		table.getColumns().add(colAdresse);
 
 	}
 	
 	public void initPanes(){
-//		System.out.println(list);
 		ObservableList<Client> data = FXCollections.observableArrayList(list);
 		FilteredList<Client> items = new FilteredList<>(data);
 		items.setPredicate(null);
 		initTable(data);
-		
     	txtId.setDisable(true);
 
 		btnAjouter.setOnAction(new EventHandler<ActionEvent>() {
@@ -148,7 +145,6 @@ public class ClientIHM extends Application {
 				table.getSelectionModel().clearSelection();
 			}
 		});
-
 		
 		btnModifier.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -205,15 +201,17 @@ public class ClientIHM extends Application {
 		
 		navBar.getChildren().add(labelNav);
 		
-		sideBarLeft.getChildren().addAll(btnNouveau,btnAjouter,btnModifier,btnSupprimer);
-				
+
 		grid.addRow(0, labelId,txtId);
 		grid.addRow(1, labelNom,txtNom);
 		grid.addRow(2, labelPrenom, txtPrenom);
 		grid.addRow(3, labelEmail,txtEmail);
 		grid.addRow(4, labelTelephone, txtTelephone);		
-		grid.addRow(5, labelAdresse, txtAdresse);		
-		
+		grid.addRow(5, labelAdresse, txtAdresse);
+		grid.add(sideBarLeft,0,6, 2, 1);
+
+		sideBarLeft.getChildren().addAll(btnNouveau,btnAjouter,btnModifier,btnSupprimer);
+
 		sideBarRight.getChildren().addAll(txtSearch,table);
 		
 		navBar.getStyleClass().add("navBar");
@@ -224,7 +222,7 @@ public class ClientIHM extends Application {
 		
 		
 		container.setTop(navBar);
-		container.setLeft(sideBarLeft);
+//		container.setLeft(sideBarLeft);
 		container.setRight(sideBarRight);
 		container.setCenter(grid);
 		

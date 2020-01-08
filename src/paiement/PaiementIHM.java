@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -25,6 +26,7 @@ import java.util.function.Predicate;
 
 public class PaiementIHM extends Application {
 
+//    public Node container;
     BorderPane root = new BorderPane();
     Scene scene = null;
 
@@ -33,11 +35,19 @@ public class PaiementIHM extends Application {
 
     static List<Paiement> list = null;
 
-    GridPane grid = new GridPane();
+    public PaiementIHM(){
+        list = pm.findAll();
+
+        ObservableList<Paiement> data = FXCollections.observableArrayList(list);
+        FilteredList<Paiement> items = new FilteredList<>(data);
+
+    }
+
+    public GridPane grid = new GridPane();
     HBox navBar = new HBox();
     VBox sideBarLeft = new VBox();
     VBox sideBarRight = new VBox();
-    BorderPane container = new BorderPane();
+    public BorderPane container = new BorderPane();
 
     Label labelId = new Label("ID : ");
     Label labelVente = new Label("Vente : ");
@@ -45,7 +55,7 @@ public class PaiementIHM extends Application {
     Label labelDate = new Label("Date : ");
     Label labelCategorie = new Label("Categorie : ");
 
-    Label labelNav = new Label("This is header ");
+    Label labelNav = new Label("Gestion Paiements");
 
     TextField txtSearch = new TextField();
 
@@ -80,16 +90,16 @@ public class PaiementIHM extends Application {
         table.setEditable(true);
         table.setItems(data);
         TableColumn<Paiement, Long> colId = new TableColumn<Paiement, Long>("ID");
-        colId.setMinWidth(50);
+        colId.setMinWidth(30);
         colId.setCellValueFactory(new PropertyValueFactory<Paiement, Long>("id"));
         table.getColumns().add(colId);
 
         TableColumn<Paiement, Long> colVente = new TableColumn<Paiement, Long>("Vente");
-        colVente.setMinWidth(120);
+        colVente.setMinWidth(40);
         colVente.setCellValueFactory(new PropertyValueFactory<Paiement, Long>("vente"));
         table.getColumns().add(colVente);
 
-        TableColumn<Paiement, Float> colTotal = new TableColumn<Paiement, Float>("Montantt");
+        TableColumn<Paiement, Float> colTotal = new TableColumn<Paiement, Float>("Montant");
         colTotal.setMinWidth(80);
         colTotal.setCellValueFactory(new PropertyValueFactory<Paiement, Float>("total"));
         table.getColumns().add(colTotal);
@@ -105,7 +115,7 @@ public class PaiementIHM extends Application {
         table.getColumns().add(colCategorie);
     }
 
-    private void initPanes(){
+    public void initPanes(){
         ObservableList<Paiement> data = FXCollections.observableArrayList(list);
         FilteredList<Paiement> items = new FilteredList<>(data);
         items.setPredicate(null);
@@ -189,6 +199,8 @@ public class PaiementIHM extends Application {
 
         sideBarLeft.getChildren().addAll(btnNouveau,btnAjouter,btnModifier,btnSupprimer);
 
+        loadCombo();
+
         grid.addRow(0, labelId,txtId);
         grid.addRow(1, labelVente,txtVente);
         grid.addRow(2, labelTotal, txtTotal);
@@ -242,7 +254,6 @@ public class PaiementIHM extends Application {
         list = new ArrayList<Paiement>();
         list = pm.findAll();
 
-        loadCombo();
         scene = new Scene(container);
         window.setTitle("title");
         window.setHeight(600);

@@ -73,7 +73,7 @@ public class CategorieDAOImpl implements DAO{
 			statement = connection.prepareStatement("select * from categorie");
 			ResultSet rs = statement.executeQuery();
 			while(rs.next()) {
-				l.add(new Categorie(rs.getInt(1),rs.getString(2)));
+				l.add(find(rs.getLong(1)));
 			}
 			return l;
 		}

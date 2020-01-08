@@ -1,67 +1,124 @@
+* {
+   -fx-primary : #2d132c;
+   -fx-secondary : #801336;
+   -fx-primary-text : white;
+}
+
 .sideBarLeft .button {
-    -fx-font: 24px "montserrat";
+    -fx-font: 12px "montserrat";
     -fx-pref-height: 2;
-    -fx-pref-width: 180;
+    -fx-pref-width: 120;
     -fx-text-fill: white;
     -fx-padding: 10;
     -fx-border-insets: 5px;
     -fx-background-insets: 5px;
-    
     -fx-background-color: #004080;
 }
 .label {
-    -fx-font: 16px "montserrat";
+    -fx-font: 12px "montserrat";
     -fx-padding: 10;
     -fx-font-weight:bold;
-    
+    /*-fx-text-fill: -fx-primary-text;*/
 }
 
 .labelNav{
 	-fx-alignment:center;
+    -fx-font-size: 24px;
+    -fx-text-fill: -fx-primary-text;
 	-fx-padding: 10;
 }
 
 .navBar{
-	-fx-background-color: #909090;
+	-fx-background-color: -fx-primary;
+}
+
+.navBar .label{
+    -fx-alignment:center;
+    -fx-font-size: 24px;
+    -fx-text-fill: -fx-primary-text;
+    -fx-padding: 10;
 }
 
 .sideBarRight {
-     -fx-background-color: #b5e7ff;
+     -fx-background-color: transparent;
 }
 .sideBarLeft {
      /*-fx-background-color: #2d132c;*/
 }
 
+.gridOfLogin{
+    -fx-background-color: -fx-primary;
+    -fx-min-width: 200px;
+    -fx-padding: 20px;
+}
+
+.gridOfLogin .label{
+    -fx-text-fill: -fx-primary-text;
+    -fx-font-size: 16px;
+}
+
+.materialInput{
+    -fx-background-color: transparent;
+    -fx-border-color: -fx-primary-text;
+    -fx-background-insets: 0 -1 -1 -1, 0 0 0 0, 0 -1 3 -1;
+    -fx-border-width: 0 0 2px 0;
+    -fx-text-fill: -fx-primary-text;
+}
+
+.materialInput:focused{
+    -fx-background-color: transparent;
+    -fx-border-color: -fx-secondary;
+    -fx-background-insets: 0 -1 -1 -1, 0 0 0 0, 0 -1 3 -1;
+    -fx-border-width: 0 0 2px 0;
+}
+
+.gridOfLogin .button{
+    -fx-alignment: center;
+    -fx-background-color: -fx-secondary;
+    -fx-min-width: 80px;
+    -fx-border-radius: 10px;
+    -fx-text-fill: -fx-primary-text;
+    -fx-font-size: 16px;
+    -fx-border-insets: 0 5px 0 5px;
+}
+
+.gridOfLogin .button:hover{
+
+    -fx-background-color: -fx-primary-text;
+    -fx-text-fill: -fx-secondary;
+    /*-fx-font-size: 24px;*/
+    -fx-border-insets: 0 5px 0 5px;
+}
+
 .sideBar{
-    -fx-background-color: #2d132c;
-    -fx-min-width: 240px;
+    -fx-background-color: -fx-primary;
+    -fx-min-width: 210px;
 }
 
 .sideBar .button{
     -fx-font: 16pt "montserrat";
-    -fx-text-fill: white;
+    -fx-text-fill: -fx-primary-text;
     -fx-padding: 10px 20px 10px 20px;
     -fx-background-color: transparent;
-    -fx-border-width: 0 0 0 5;
-    -fx-border-color: #801336;
-    -fx-min-width: 100%;
+    -fx-border-width: 0 0 0 10;
+    -fx-border-color: -fx-secondary;
+    -fx-min-width: 210px;
+    -fx-pref-width: 210px;
     /*-fx-max-width: 100%;*/
 }
 
 .sideBar .button:hover{
-    -fx-background-color: #801336;
-    -fx-border-width: 0 0 0 5;
-    -fx-border-color: #2d132c;
-
+    -fx-background-color: -fx-secondary;
+    -fx-border-width: 0 0 0 10;
+    -fx-border-color: -fx-primary;
 }
 
 .grid{
 	-fx-background-color: #ececec;
-	-fx-width: 100%;
+	-fx-min-width: 200px;
 }
 
 .textField{
     -fx-background-color: transparent;
-
     -fx-width: 100%;
 }

@@ -3,22 +3,23 @@ package client;
 public class Client {
 
 	private long id;
-	public Client(long id, String prenom, String nom, String telephone, String email, String adresse) {
-		super();
-		this.id = id;
-		this.prenom = prenom;
-		this.nom = nom;
-		this.telephone = telephone;
-		this.email = email;
-		this.adresse = adresse;
-	}
-
 	private String prenom;
 	private String nom;
 	private String telephone;
 	private String email;
 	private String adresse;
-	
+
+
+	public Client(long id, String nom, String prenom, String telephone, String email, String adresse) {
+		super();
+		this.id = id;
+		this.nom = nom;
+		this.prenom = prenom;
+		this.telephone = telephone;
+		this.email = email;
+		this.adresse = adresse;
+	}
+
 	@Override
 	public String toString() {
 		return getNom();

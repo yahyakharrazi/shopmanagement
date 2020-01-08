@@ -58,7 +58,7 @@ public class CommandeIHM extends Application {
 
 	GridPane grid = new GridPane();
 	HBox navBar = new HBox();
-	VBox sideBarLeft = new VBox();
+	HBox sideBarLeft = new HBox();
 	VBox sideBarRight = new VBox();
 	BorderPane container = new BorderPane();
 	
@@ -234,7 +234,7 @@ public class CommandeIHM extends Application {
 		grid.addRow(2, labelTotal, txtTotal);
 		grid.addRow(3, labelVente, txtVente);
 		grid.addRow(4, labelProduct, comboProduct);
-		
+		grid.add(sideBarLeft,0,5,2,1);
 		sideBarRight.getChildren().addAll(txtSearch,table);
 		
 		navBar.getStyleClass().add("navBar");
@@ -245,7 +245,7 @@ public class CommandeIHM extends Application {
 		
 		
 		container.setTop(navBar);
-		container.setLeft(sideBarLeft);
+//		container.setLeft(sideBarLeft);
 		container.setRight(sideBarRight);
 		container.setCenter(grid);
 		

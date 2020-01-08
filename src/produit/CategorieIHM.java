@@ -36,8 +36,8 @@ public class CategorieIHM extends Application {
 	static List<Categorie> list = null;
 	
 	GridPane grid = new GridPane();
-	HBox navBar = new HBox();
-	VBox sideBarLeft = new VBox();
+	HBox navBar = new HBox(),sideBarLeft = new HBox();
+//	HBox sideBarLeft = new HBox();
 	VBox sideBarRight = new VBox();
 	BorderPane container = new BorderPane();
 	
@@ -59,8 +59,8 @@ public class CategorieIHM extends Application {
 	int indexOfTable=-1;
 	
 	private void resetTextFields() {
-		txtId.setText("");
-		txtDesignation.setText("");
+		txtId.clear();
+		txtDesignation.clear();
 	}
 	
 	private void initTable(ObservableList<Categorie> data) {
@@ -156,12 +156,11 @@ public class CategorieIHM extends Application {
 		
 		navBar.getChildren().add(labelNav);
 		
-		sideBarLeft.getChildren().addAll(btnNouveau,btnAjouter,btnModifier,btnSupprimer);
-				
 		grid.addRow(0, labelId,txtId);
 		grid.addRow(1, labelDesignation,txtDesignation);		
-		
+		sideBarLeft.getChildren().addAll(btnNouveau,btnAjouter,btnModifier,btnSupprimer);
 		sideBarRight.getChildren().addAll(txtSearch,table);
+		grid.add(sideBarLeft,0,2,2,1);
 		
 		navBar.getStyleClass().add("navBar");
 		navBar.getStyleClass().add("labelNav");
@@ -171,7 +170,7 @@ public class CategorieIHM extends Application {
 		
 		
 		container.setTop(navBar);
-		container.setLeft(sideBarLeft);
+//		container.setLeft(sideBarLeft);
 		container.setRight(sideBarRight);
 		container.setCenter(grid);
 		

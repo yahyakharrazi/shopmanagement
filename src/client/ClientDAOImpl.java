@@ -77,19 +77,19 @@ public class ClientDAOImpl implements DAO{
 	}
 	
 	public List<Client> findAll(){
-		List<Client> l = new ArrayList<Client>();
+		List<Client> l = new ArrayList<>();
 		try {
 			statement = connection.prepareStatement("select * from client");
 			ResultSet rs = statement.executeQuery();
 			while(rs.next()) {
-				l.add(new Client(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6)));
+				System.out.println(find(rs.getLong(1)).getPrenom()+" sss "+find(rs.getLong(1)).getNom());
+				l.add(find(rs.getLong(1)));
 			}
 			return l;
 		}
 		catch(Exception ex) {
-			System.out.println(ex.getMessage());
-			l = null;
-			return l;
+			ex.printStackTrace();
+			return null;
 		}
 	}
 	
@@ -100,16 +100,14 @@ public class ClientDAOImpl implements DAO{
 			statement = connection.prepareStatement("select * from client where id = ?");
 			statement.setLong(1, id);
 			ResultSet rs = statement.executeQuery();
-			while(rs.next()) {
-				return new Client(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6));
-			}
-			return null;
+			while(rs.next())
+				return new Client(rs.getLong(1),rs.getString(3),rs.getString(2),rs.getString(4),rs.getString(5),rs.getString(6));
+
 		}
 		catch(Exception ex) {
-			System.out.println(ex.getMessage());
-			return null;
+			ex.printStackTrace();
 		}
-		
+		return null;
 	}
 	
 	public List<Client> findAll(String key){
