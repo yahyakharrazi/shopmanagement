@@ -12,8 +12,17 @@
     -fx-padding: 10;
     -fx-border-insets: 5px;
     -fx-background-insets: 5px;
-    -fx-background-color: #004080;
+    -fx-background-color: -fx-primary;
 }
+
+.sideBarLeft .button:hover {
+    -fx-text-fill: -fx-primary;
+    -fx-padding: 10;
+    -fx-border-insets: 5px;
+    -fx-background-insets: 5px;
+    -fx-background-color: -fx-primary-text;
+}
+
 .label {
     -fx-font: 12px "montserrat";
     -fx-padding: 10;
@@ -59,7 +68,7 @@
 
 .materialInput{
     -fx-background-color: transparent;
-    -fx-border-color: -fx-primary-text;
+    -fx-border-color: -fx-primary;
     -fx-background-insets: 0 -1 -1 -1, 0 0 0 0, 0 -1 3 -1;
     -fx-border-width: 0 0 2px 0;
     -fx-text-fill: -fx-primary-text;
@@ -114,11 +123,19 @@
 }
 
 .grid{
-	-fx-background-color: #ececec;
+	-fx-background-color: -fx-primary;
 	-fx-min-width: 200px;
 }
 
-.textField{
+.grid .TextField{
+    -fx-background-color: transparent;
+    -fx-border-color: -fx-primary;
+    -fx-background-insets: 0 -1 -1 -1, 0 0 0 0, 0 -1 3 -1;
+    -fx-border-width: 0 0 2px 0;
+    -fx-text-fill: -fx-primary-text;
+}
+
+.TextField{
     -fx-background-color: transparent;
     -fx-width: 100%;
 }

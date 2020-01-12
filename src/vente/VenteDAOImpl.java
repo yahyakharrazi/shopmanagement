@@ -48,7 +48,6 @@ public class VenteDAOImpl implements DAO{
 		PreparedStatement statement;
 		Vente vente = Vente.class.cast(prod);
 		try {
-			
 			statement = connection.prepareStatement("delete from produit where id = ?");
 			statement.setLong(1,vente.getId());
 			statement.executeUpdate();
@@ -106,7 +105,6 @@ public class VenteDAOImpl implements DAO{
 			ex.printStackTrace();
 			return null;
 		}
-		
 	}
 	
 	public List<Vente> findAll(String key){

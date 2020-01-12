@@ -23,7 +23,7 @@ public class ClientDAOImpl implements DAO{
 	
 	public long create(Object prod) {
 		try {
-			Client client = Client.class.cast(prod);
+			Client client = (Client) prod;
 			statement = connection.prepareStatement("insert into Client(nom,prenom,telephone,email,adresse) values(?,?,?,?,?)");
 			statement.setString(1, client.getNom());
 			statement.setString(2, client.getPrenom());
@@ -45,7 +45,7 @@ public class ClientDAOImpl implements DAO{
 	
 	public void delete(Object prod) {
 		PreparedStatement statement;
-		Client client = Client.class.cast(prod);
+		Client client = (Client) prod;
 		try {
 			
 			statement = connection.prepareStatement("delete from client where id = ?");
@@ -58,7 +58,7 @@ public class ClientDAOImpl implements DAO{
 	}
 	
 	public void update(Object cli) {
-		Client client = Client.class.cast(cli);
+		Client client = (Client) cli;
 		PreparedStatement statement = null;
 		try {
 			statement = connection.prepareStatement("update client set nom=? , prenom=? , telephone=? , email=? , adresse=? where id = ?");
@@ -81,10 +81,8 @@ public class ClientDAOImpl implements DAO{
 		try {
 			statement = connection.prepareStatement("select * from client");
 			ResultSet rs = statement.executeQuery();
-			while(rs.next()) {
-				System.out.println(find(rs.getLong(1)).getPrenom()+" sss "+find(rs.getLong(1)).getNom());
+			while(rs.next())
 				l.add(find(rs.getLong(1)));
-			}
 			return l;
 		}
 		catch(Exception ex) {
@@ -102,7 +100,6 @@ public class ClientDAOImpl implements DAO{
 			ResultSet rs = statement.executeQuery();
 			while(rs.next())
 				return new Client(rs.getLong(1),rs.getString(3),rs.getString(2),rs.getString(4),rs.getString(5),rs.getString(6));
-
 		}
 		catch(Exception ex) {
 			ex.printStackTrace();

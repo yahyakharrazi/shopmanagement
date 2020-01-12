@@ -157,7 +157,6 @@ public class CommandeDAOImpl implements DAO{
 			ex.printStackTrace();
 			return null;
 		}
-		
 	}
 	
 	public List<Commande> findAll(String key){

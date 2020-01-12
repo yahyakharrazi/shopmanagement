@@ -28,6 +28,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import paiement.Paiement;
 
 public class ProductIHM extends Application {
 
@@ -44,6 +45,18 @@ public class ProductIHM extends Application {
 		list = pm.findAll();
 		listCategorie = FXCollections.observableArrayList(cm.findAll());
 	}
+
+	public int myIndexOf(List<Product> al, Product c){
+		int i;
+		if(c!=null){
+			for(i=0;i<al.size();i++){
+				if(al.get(i).getId()==c.getId())
+					return i;
+			}
+		}
+		return -1;
+	}
+
 
 	public GridPane grid = new GridPane();
 	HBox navBar = new HBox();
@@ -76,8 +89,7 @@ public class ProductIHM extends Application {
 	int indexOfTable=-1;
 
 	private void loadCombo() {
-//		System.out.println(cm.findAll());
-		comboCategorie = new ChoiceBox<Categorie>(listCategorie);
+		comboCategorie = new ChoiceBox<>(listCategorie);
 		comboCategorie.getSelectionModel().selectFirst();
 	}
 	
@@ -122,81 +134,65 @@ public class ProductIHM extends Application {
 		FilteredList<Product> items = new FilteredList<>(data);
 		items.setPredicate(null);
 		initTable(data);
-		
+
     	txtId.setDisable(true);
 
-		btnAjouter.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-				if(txtDesignation.getText().length()!=0 && txtPrixAchat.getText().length()!=0 && txtPrixVente.getText().length()!=0) {
-					Product p = new Product(1,txtDesignation.getText(),Float.parseFloat(txtPrixAchat.getText()), Float.parseFloat(txtPrixVente.getText()), cm.find(comboCategorie.getValue().getId()));
-					long id = pm.create(p);
-					if(id > 0) {
-						p.setId(id);
-						data.add(p);
-						resetTextFields();
-					}
+		btnAjouter.setOnAction(e -> {
+			if(txtDesignation.getText().length()!=0 && txtPrixAchat.getText().length()!=0 && txtPrixVente.getText().length()!=0) {
+				Product p = new Product(1,txtDesignation.getText(),Float.parseFloat(txtPrixAchat.getText()), Float.parseFloat(txtPrixVente.getText()), cm.find(comboCategorie.getValue().getId()));
+				long id = pm.create(p);
+				if(id > 0) {
+					p.setId(id);
+					data.add(p);
+					resetTextFields();
 				}
 			}
 		});
 				
-		btnNouveau.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-				resetTextFields();
-				table.getSelectionModel().clearSelection();
-			}
+		btnNouveau.setOnAction(e -> {
+			resetTextFields();
+			table.getSelectionModel().clearSelection();
 		});
 		
-		btnModifier.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-				if(txtId.getText()!="") {
-					Product p =pm.find(Integer.parseInt(txtId.getText()));
-					if(p!=null) {
-						p.setDesignation(txtDesignation.getText());
-						p.setPrixAchat(Float.valueOf(txtPrixAchat.getText()));
-						p.setPrixVente(Float.valueOf(txtPrixVente.getText()));
-						p.setCategorie(cm.find(comboCategorie.getValue().getId()));
-						data.remove(indexOfTable, indexOfTable+1);
-						data.add(indexOfTable+1,p);
-						pm.update(p);
-						table.getSelectionModel().clearSelection();
-						resetTextFields();
-					}
+		btnModifier.setOnAction(e -> {
+			if(txtId.getText().length()!=0) {
+				Product p =pm.find(Integer.parseInt(txtId.getText()));
+				if(p!=null) {
+					p.setDesignation(txtDesignation.getText());
+					p.setPrixAchat(Float.parseFloat(txtPrixAchat.getText()));
+					p.setPrixVente(Float.parseFloat(txtPrixVente.getText()));
+					p.setCategorie(cm.find(comboCategorie.getValue().getId()));
+					data.set(myIndexOf(data,p),p);
+					pm.update(p);
+					table.getSelectionModel().clearSelection();
+					resetTextFields();
 				}
 			}
 		});
 		
-		btnSupprimer.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-				if(txtId.getText()!="") {
-					Product p =pm.find(Integer.parseInt(txtId.getText()));
-					if(p!=null) {
-						pm.delete(p);
-						data.remove(indexOfTable, indexOfTable+1);
-						table.getSelectionModel().clearSelection();
-						resetTextFields();
-					}
+		btnSupprimer.setOnAction(e -> {
+			if(txtId.getText().length()!=0) {
+				Product p =pm.find(Integer.parseInt(txtId.getText()));
+				if(p!=null) {
+					data.remove(myIndexOf(data,p), myIndexOf(data,p)+1);
+					pm.delete(p);
+					table.getSelectionModel().clearSelection();
+					resetTextFields();
 				}
 			}
 		});
 		
-		txtSearch.setOnKeyReleased(new EventHandler<KeyEvent>() {
-			@Override
-			public void handle(KeyEvent event) {
-				Predicate<Product> designation = i -> i.getDesignation().contains(txtSearch.getText());
-				Predicate<Product> id = i -> String.valueOf(i.getId()).contains(txtSearch.getText());
-				Predicate<Product> prixAchat = i -> String.valueOf(i.getPrixAchat()).contains(txtSearch.getText());
-				Predicate<Product> prixVente = i -> String.valueOf(i.getPrixVente()).contains(txtSearch.getText());
-				Predicate<Product> categorie = i -> String.valueOf(i.getCategorie()).contains(txtSearch.getText());
-				Predicate<Product> predicate = designation.or(prixAchat.or(prixVente.or(categorie.or(id))));
-				
-				table.setItems(items);
-				items.setPredicate(predicate);
+		txtSearch.setOnKeyReleased(event -> {
+			Predicate<Product> designation = i -> i.getDesignation().contains(txtSearch.getText());
+			Predicate<Product> id = i -> String.valueOf(i.getId()).contains(txtSearch.getText());
+			Predicate<Product> prixAchat = i -> String.valueOf(i.getPrixAchat()).contains(txtSearch.getText());
+			Predicate<Product> prixVente = i -> String.valueOf(i.getPrixVente()).contains(txtSearch.getText());
+			Predicate<Product> categorie = i -> String.valueOf(i.getCategorie()).contains(txtSearch.getText());
+			Predicate<Product> predicate = designation.or(prixAchat.or(prixVente.or(categorie.or(id))));
+
+			table.setItems(items);
+			items.setPredicate(predicate);
 //				table.getItems()
-			}
 		});
 		
 		navBar.getChildren().add(labelNav);

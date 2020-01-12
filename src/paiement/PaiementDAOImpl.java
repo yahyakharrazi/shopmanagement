@@ -82,14 +82,14 @@ public class PaiementDAOImpl implements DAO {
     }
 
     public List<Paiement> findAll(){
-        List<Paiement> l = new ArrayList<Paiement>();
-        try {
+        List<Paiement> l = new ArrayList<>();
+        try{
             statement = connection.prepareStatement("select * from paiement");
             ResultSet rs = statement.executeQuery();
             while(rs.next()) {
                 l.add(find(rs.getLong(1)));
             }
-            System.out.println(l);
+//            System.out.println(l);
             return l;
         }
         catch(Exception ex) {

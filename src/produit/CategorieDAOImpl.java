@@ -20,11 +20,11 @@ public class CategorieDAOImpl implements DAO{
 		statement = dc.statement;
 	}
 			
-	public long create(Object prod) {
+	public long create(Object cat) {
 		try {
-			Categorie product = Categorie.class.cast(prod);
+			Categorie categorie = Categorie.class.cast(cat);
 			statement = connection.prepareStatement("insert into Categorie(designation) values(?)");
-			statement.setString(1, product.getDesignation());
+			statement.setString(1, categorie.getDesignation());
 			statement.executeUpdate();
 			ResultSet rs = statement.getGeneratedKeys();
 			while(rs.next()) {
@@ -38,11 +38,10 @@ public class CategorieDAOImpl implements DAO{
 		}
 	}
 	
-	public void delete(Object prod) {
+	public void delete(Object cat) {
 		PreparedStatement statement;
-		Categorie product = Categorie.class.cast(prod);
+		Categorie product = Categorie.class.cast(cat);
 		try {
-			
 			statement = connection.prepareStatement("delete from categorie where id = ?");
 			statement.setLong(1,product.getId());
 			statement.executeUpdate();
@@ -68,7 +67,7 @@ public class CategorieDAOImpl implements DAO{
 	}
 	
 	public List<Categorie> findAll(){
-		List<Categorie> l = new ArrayList<Categorie>();
+		List<Categorie> l = new ArrayList<>();
 		try {
 			statement = connection.prepareStatement("select * from categorie");
 			ResultSet rs = statement.executeQuery();
@@ -102,7 +101,7 @@ public class CategorieDAOImpl implements DAO{
 	}
 	
 	public List<Categorie> findAll(String key){
-		List<Categorie> l = new ArrayList<Categorie>();
+		List<Categorie> l = new ArrayList<>();
 		try {
 			statement = connection.prepareStatement("select * from categorie where designation like ?");
 			statement.setString(1, key);

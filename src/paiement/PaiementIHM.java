@@ -1,6 +1,9 @@
 package paiement;
 
+import banque.Compte;
+import client.Client;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -8,20 +11,27 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 import vente.VenteDAOImpl;
 
+import java.io.DataInputStream;
+import java.io.InputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.net.Socket;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 
 public class PaiementIHM extends Application {
@@ -45,17 +55,18 @@ public class PaiementIHM extends Application {
 
     public GridPane grid = new GridPane();
     HBox navBar = new HBox();
-    VBox sideBarLeft = new VBox();
+    HBox sideBarLeft = new HBox();
     VBox sideBarRight = new VBox();
     public BorderPane container = new BorderPane();
+    StackPane sp = new StackPane();
 
     Label labelId = new Label("ID : ");
     Label labelVente = new Label("Vente : ");
     Label labelTotal = new Label("Total : ");
     Label labelDate = new Label("Date : ");
     Label labelCategorie = new Label("Categorie : ");
+    Label labelNav = new Label("Gestion des Paiements");
 
-    Label labelNav = new Label("Gestion Paiements");
 
     TextField txtSearch = new TextField();
 
@@ -63,20 +74,30 @@ public class PaiementIHM extends Application {
     TextField txtVente = new TextField();
     TextField txtTotal = new TextField();
     TextField txtDate = new TextField();
-    ChoiceBox comboCategorie;
-    TableView<Paiement> table = new TableView<Paiement>();
+    DatePicker dp = new DatePicker();
+
+    ChoiceBox comboCategorie = new ChoiceBox(FXCollections.observableArrayList("espece","cheque","online","traites"));
+    TableView<Paiement> table = new TableView<>();
 
     Button btnModifier = new Button("Modifier");
     Button btnAjouter = new Button("Ajouter");
     Button btnNouveau = new Button("Nouveau");
     Button btnSupprimer = new Button("Supprimer");
 
-    int indexOfTable=-1;
-
     private void loadCombo() {
-        comboCategorie = new ChoiceBox();
-        comboCategorie.getItems().addAll("espece","cheque","online","traites");
+//        comboCategorie.getItems().addAll("espece","cheque","online","traites");
         comboCategorie.getSelectionModel().selectFirst();
+    }
+
+    public int myIndexOf(List<Paiement> al, Paiement c){
+        int i;
+        if(c!=null){
+            for(i=0;i<al.size();i++){
+                if(al.get(i).getId()==c.getId())
+                    return i;
+            }
+        }
+        return -1;
     }
 
     private void resetTextFields() {
@@ -89,110 +110,176 @@ public class PaiementIHM extends Application {
     private void initTable(ObservableList<Paiement> data) {
         table.setEditable(true);
         table.setItems(data);
-        TableColumn<Paiement, Long> colId = new TableColumn<Paiement, Long>("ID");
-        colId.setMinWidth(30);
-        colId.setCellValueFactory(new PropertyValueFactory<Paiement, Long>("id"));
+
+        TableColumn<Paiement, Long> colId = new TableColumn<>("ID");
+        colId.setMinWidth(40);
+        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         table.getColumns().add(colId);
 
-        TableColumn<Paiement, Long> colVente = new TableColumn<Paiement, Long>("Vente");
-        colVente.setMinWidth(40);
-        colVente.setCellValueFactory(new PropertyValueFactory<Paiement, Long>("vente"));
+        TableColumn<Paiement, Long> colVente = new TableColumn<>("Vente");
+        colVente.setMinWidth(70);
+        colVente.setCellValueFactory(new PropertyValueFactory<>("vente"));
         table.getColumns().add(colVente);
 
-        TableColumn<Paiement, Float> colTotal = new TableColumn<Paiement, Float>("Montant");
+        TableColumn<Paiement, Float> colTotal = new TableColumn<>("Montant");
         colTotal.setMinWidth(80);
-        colTotal.setCellValueFactory(new PropertyValueFactory<Paiement, Float>("total"));
+        colTotal.setCellValueFactory(new PropertyValueFactory<>("total"));
         table.getColumns().add(colTotal);
 
-        TableColumn<Paiement, String> colDate = new TableColumn<Paiement, String>("Date");
+        TableColumn<Paiement, String> colDate = new TableColumn<>("Date");
         colDate.setMinWidth(80);
-        colDate.setCellValueFactory(new PropertyValueFactory<Paiement, String>("date"));
+        colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
         table.getColumns().add(colDate);
 
-        TableColumn<Paiement, String> colCategorie = new TableColumn<Paiement, String>("Reglement");
-        colCategorie.setMinWidth(80);
-        colCategorie.setCellValueFactory(new PropertyValueFactory<Paiement, String>("reglement"));
+        TableColumn<Paiement, String> colCategorie = new TableColumn<>("Reglement");
+        colCategorie.setMinWidth(98);
+        colCategorie.setCellValueFactory(new PropertyValueFactory<>("reglement"));
         table.getColumns().add(colCategorie);
     }
 
     public void initPanes(){
+
         ObservableList<Paiement> data = FXCollections.observableArrayList(list);
         FilteredList<Paiement> items = new FilteredList<>(data);
         items.setPredicate(null);
         initTable(data);
 
+        dp.setValue(LocalDate.now());
         txtId.setDisable(true);
 
-        btnAjouter.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                if(txtVente.getText().length()!=0 && txtTotal.getText().length()!=0 && txtDate.getText().length()!=0) {
-                    Paiement p = new Paiement(1,vm.find(Long.valueOf(txtVente.getText())),Float.parseFloat(txtTotal.getText()), txtDate.getText(), comboCategorie.getValue().toString());
-                    long id = pm.create(p);
-                    if(id > 0) {
-                        p.setId(id);
-                        data.add(p);
-                        resetTextFields();
-                    }
+        System.out.println(comboCategorie.getValue());
+
+        btnAjouter.setOnAction(e -> {
+            if(txtVente.getText().length()!=0 && txtTotal.getText().length()!=0) {
+//            if(true) {
+                Paiement p = new Paiement(1,vm.find(Long.parseLong(txtVente.getText())),Float.parseFloat(txtTotal.getText()), dp.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")), comboCategorie.getValue().toString());
+
+                switch (comboCategorie.getValue().toString()){
+                    case "espece":
+
+                        break;
+                    case "cheque":
+
+                        break;
+                    case "online":
+                        Dialog<Pair<String, String>> dialog = new Dialog<>();
+                        dialog.setTitle("Cmi paiement");
+
+                        // Set the button types.
+                        ButtonType loginButtonType = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
+                        dialog.getDialogPane().getButtonTypes().addAll(loginButtonType, ButtonType.CANCEL);
+
+                        GridPane gridPane = new GridPane();
+                        gridPane.setHgap(10);
+                        gridPane.setVgap(10);
+                        gridPane.setPadding(new Insets(20, 150, 10, 10));
+
+                        TextField proprietaire = new TextField();
+                        proprietaire.setPromptText("Propietaire");
+                        TextField code = new TextField();
+                        code.setPromptText("Code");
+
+                        gridPane.addRow(0,new Label("Proprietiare : "),proprietaire);
+                        gridPane.addRow(1,new Label("Code : "),code);
+
+                        dialog.getDialogPane().setContent(gridPane);
+
+                        // Request focus on the username field by default.
+                        // Platform.runLater(() -> from.requestFocus());
+
+                        // Convert the result to a username-password-pair when the login button is clicked.
+                        dialog.setResultConverter(dialogButton -> {
+                            if (dialogButton == loginButtonType) {
+                                return new Pair<>(proprietaire.getText(), code.getText());
+                            }
+                            return null;
+                        });
+
+                        Optional<Pair<String, String>> result = dialog.showAndWait();
+
+                        result.ifPresent(pair -> {
+                            try {
+                                Compte c = new Compte(proprietaire.getText(),Float.parseFloat(txtTotal.getText()), code.getText());
+                                Socket s = new Socket("localhost", 8818);
+                                OutputStream os = s.getOutputStream();
+                                ObjectOutputStream dos = new ObjectOutputStream(os);
+                                dos.writeObject(c);
+                                InputStream is = s.getInputStream();
+                                DataInputStream dis = new DataInputStream(is);
+                                System.out.println(String.valueOf(dis.readByte()));
+                                long id = pm.create(p);
+
+                                if(id > 0) {
+                                    p.setId(id);
+                                    data.add(p);
+                                    resetTextFields();
+                                }
+
+                                s.close();
+                            }
+                            catch (Exception ex){
+                                ex.printStackTrace();
+                            }
+//                            System.out.println("Name=" + pair.getKey() + ", Code=" + pair.getValue());
+                        });
+
+                        break;
+                    case "traites":
+
+                        break;
+                }
+//                long id = pm.create(p);
+//
+//                if(id > 0) {
+//                    p.setId(id);
+//                    data.add(p);
+//                    resetTextFields();
+//                }
+            }
+        });
+
+        btnNouveau.setOnAction(e -> {
+            resetTextFields();
+            table.getSelectionModel().clearSelection();
+        });
+
+        btnModifier.setOnAction(e -> {
+            if(txtId.getText().length()!=0) {
+                Paiement p =pm.find(Integer.parseInt(txtId.getText()));
+                if(p!=null) {
+                    p.setVente(vm.find(Long.parseLong(txtVente.getText())));
+                    p.setTotal(Float.parseFloat(txtTotal.getText()));
+                    p.setReglement(dp.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+                    p.setReglement(comboCategorie.getValue().toString());
+                    data.set(myIndexOf(data,p),p);
+                    pm.update(p);
+                    table.getSelectionModel().clearSelection();
+                    resetTextFields();
                 }
             }
         });
 
-        btnNouveau.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                resetTextFields();
-                table.getSelectionModel().clearSelection();
-            }
-        });
-
-        btnModifier.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                if(txtId.getText().length()!=0) {
-                    Paiement p =pm.find(Integer.parseInt(txtId.getText()));
-                    if(p!=null) {
-                        p.setVente(vm.find(Long.valueOf(txtVente.getText())));
-                        p.setTotal(Float.valueOf(txtTotal.getText()));
-                        p.setReglement(txtDate.getText());
-                        p.setReglement(comboCategorie.getValue().toString());
-                        data.remove(indexOfTable, indexOfTable+1);
-                        data.add(indexOfTable+1,p);
-                        pm.update(p);
-                        table.getSelectionModel().clearSelection();
-                        resetTextFields();
-                    }
+        btnSupprimer.setOnAction(e -> {
+            if(txtId.getText().length()!=0) {
+                Paiement p =pm.find(Integer.parseInt(txtId.getText()));
+                if(p!=null) {
+                    data.remove(myIndexOf(data,p), myIndexOf(data,p)+1);
+                    pm.delete(p);
+                    table.getSelectionModel().clearSelection();
+                    resetTextFields();
                 }
             }
         });
 
-        btnSupprimer.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                if(txtId.getText()!="") {
-                    Paiement p =pm.find(Integer.parseInt(txtId.getText()));
-                    if(p!=null) {
-                        pm.delete(p);
-                        data.remove(indexOfTable, indexOfTable+1);
-                        table.getSelectionModel().clearSelection();
-                        resetTextFields();
-                    }
-                }
-            }
-        });
+        txtSearch.setOnKeyReleased(event -> {
+            Predicate<Paiement> id = i -> String.valueOf(i.getId()).contains(txtSearch.getText());
+            Predicate<Paiement> total = i -> String.valueOf(i.getTotal()).contains(txtSearch.getText());
+            Predicate<Paiement> date = i -> String.valueOf(i.getDate()).contains(txtSearch.getText());
+            Predicate<Paiement> predicate = total.or(date.or(id));
 
-        txtSearch.setOnKeyReleased(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                Predicate<Paiement> id = i -> String.valueOf(i.getId()).contains(txtSearch.getText());
-                Predicate<Paiement> total = i -> String.valueOf(i.getTotal()).contains(txtSearch.getText());
-                Predicate<Paiement> date = i -> String.valueOf(i.getDate()).contains(txtSearch.getText());
-                Predicate<Paiement> predicate = total.or(date.or(id));
-
-                table.setItems(items);
-                items.setPredicate(predicate);
+            table.setItems(items);
+            items.setPredicate(predicate);
 //				table.getItems()
-            }
         });
 
         navBar.getChildren().add(labelNav);
@@ -204,10 +291,11 @@ public class PaiementIHM extends Application {
         grid.addRow(0, labelId,txtId);
         grid.addRow(1, labelVente,txtVente);
         grid.addRow(2, labelTotal, txtTotal);
-        grid.addRow(3, labelDate, txtDate);
+        grid.addRow(3, labelDate, dp);
         grid.addRow(4, labelCategorie, comboCategorie);
 
         sideBarRight.getChildren().addAll(txtSearch,table);
+        grid.add(sideBarLeft,0,5,2,1);
 
         navBar.getStyleClass().add("navBar");
         navBar.getStyleClass().add("labelNav");
@@ -217,25 +305,26 @@ public class PaiementIHM extends Application {
 
 
         container.setTop(navBar);
-        container.setLeft(sideBarLeft);
+//        container.setLeft(sideBarLeft);
         container.setRight(sideBarRight);
         container.setCenter(grid);
 
-        table.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Object>() {
-            @Override
-            public void changed(ObservableValue<?> observableValue, Object oldValue, Object newValue) {
-                //Check whether item is selected and set value of selected item to Label
-                if(table.getSelectionModel().getSelectedItem() != null)
-                {
-                    indexOfTable = table.getSelectionModel().getSelectedIndex();
-                    resetTextFields();
-                    Paiement p = table.getSelectionModel().getSelectedItem();
-                    txtId.setText(String.valueOf(p.getId()));
-                    txtVente.setText(p.getVente().getId()+"");
-                    txtTotal.setText(String.valueOf(p.getTotal()));
-                    txtDate.setText(String.valueOf(p.getDate()));
-                    comboCategorie.getSelectionModel().select(p.getReglement());
-                }
+        table.getSelectionModel().selectedItemProperty().addListener((ChangeListener<Object>) (observableValue, oldValue, newValue) -> {
+            //Check whether item is selected and set value of selected item to Label
+            if(table.getSelectionModel().getSelectedItem() != null)
+            {
+                System.out.println(comboCategorie.getValue());
+                resetTextFields();
+                Paiement p = table.getSelectionModel().getSelectedItem();
+                txtId.setText(String.valueOf(p.getId()));
+                txtVente.setText(p.getVente().getId()+"");
+                txtTotal.setText(String.valueOf(p.getTotal()));
+                dp.setValue(LocalDate.parse(p.getDate(), DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+//                System.out.println(dp.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+//                DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+//                dp.setValue(LocalDate.parse(p.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+//                txtDate.setText(String.valueOf(p.getDate()));
+                comboCategorie.getSelectionModel().select(p.getReglement());
             }
         });
 

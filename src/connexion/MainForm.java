@@ -12,6 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import paiement.Paiement;
 import paiement.PaiementIHM;
+import produit.CategorieIHM;
 import produit.Product;
 import produit.ProductIHM;
 import vente.Vente;
@@ -25,6 +26,7 @@ public class MainForm extends Application{
 	BorderPane container = new BorderPane();
 
 	Button btnClient = new Button("Clients");
+	Button btnCategorie = new Button("Categories");
 	Button btnProduit = new Button("Produits");
 	Button btnVente = new Button("Ventes");
 	Button btnPaiement = new Button("Paiements");
@@ -33,6 +35,9 @@ public class MainForm extends Application{
 
 		Image imageClient = new Image("./media/client.png");
 		btnClient.setGraphic(new ImageView(imageClient));
+
+		Image imageCategorie = new Image("./media/category.png");
+		btnCategorie.setGraphic(new ImageView(imageCategorie));
 
 		Image imageProduit = new Image("./media/list.png");
 		btnProduit.setGraphic(new ImageView(imageProduit));
@@ -43,7 +48,7 @@ public class MainForm extends Application{
 		Image imagePaiement = new Image("./media/paiement.png");
 		btnPaiement.setGraphic(new ImageView(imagePaiement));
 
-		sideBar.getChildren().addAll(btnClient,btnProduit,btnVente,btnPaiement);
+		sideBar.getChildren().addAll(btnClient,btnCategorie,btnProduit,btnVente,btnPaiement);
 
 		sideBar.getStyleClass().add("sideBar");
 	}
@@ -57,6 +62,13 @@ public class MainForm extends Application{
 			cihm.initPanes();
 			changeContent(cihm.container);
 		});
+
+		btnCategorie.setOnAction(event -> {
+			CategorieIHM cihm = new CategorieIHM();
+			cihm.initPanes();
+			changeContent(cihm.container);
+		});
+
 
 		btnProduit.setOnAction(event -> {
 			ProductIHM prdihm = new ProductIHM();
@@ -75,6 +87,8 @@ public class MainForm extends Application{
 			pihm.initPanes();
 			changeContent(pihm.container);
 		});
+
+
 	}
 
 	public void changeContent(Node content){
@@ -88,9 +102,12 @@ public class MainForm extends Application{
 	@Override
 	public void start(Stage window) throws Exception {
 		scene = new Scene(container);
+		window.getIcons().add(new Image("./media/store.png"));
 		window.setTitle("Gestion Magasin");
 		window.setHeight(600);
-		window.setWidth(1150);
+		window.setMaxHeight(1150);
+		window.setMinWidth(1100);
+		window.setMinHeight(500);
 		initContainer();
 		scene.getStylesheets().add("MyCss.css");
 		window.setScene(scene);

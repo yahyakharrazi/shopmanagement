@@ -6,12 +6,9 @@ import java.util.function.Predicate;
 
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -19,7 +16,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -62,15 +58,24 @@ public class ClientIHM extends Application {
 	TextField txtTelephone = new TextField();
 	TextField txtEmail = new TextField();
 	TextField txtAdresse = new TextField();
-	TableView<Client> table = new TableView<Client>();
+	TableView<Client> table = new TableView<>();
 			
 	Button btnModifier = new Button("Modifier");
 	Button btnAjouter = new Button("Ajouter");
 	Button btnNouveau = new Button("Nouveau");
 	Button btnSupprimer = new Button("Supprimer");	
 
-	int indexOfTable=-1;
-	
+	public int myIndexOf(List<Client> al,Client c){
+		int i;
+		if(c!=null){
+			for(i=0;i<al.size();i++){
+				if(al.get(i).getId()==c.getId())
+					return i;
+			}
+		}
+		return -1;
+	}
+
 	private void resetTextFields() {
 		txtId.clear();
 		txtNom.clear();
@@ -98,17 +103,17 @@ public class ClientIHM extends Application {
 		colPrenom.setCellValueFactory(new PropertyValueFactory<>("prenom"));
 		table.getColumns().add(colPrenom);
 
-		TableColumn<Client, String> colEmail = new TableColumn<Client, String>("EMAIL");
+		TableColumn<Client, String> colEmail = new TableColumn<>("EMAIL");
 		colEmail.setMinWidth(60);
 		colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
 		table.getColumns().add(colEmail);
 
-		TableColumn<Client, String> colTelephone = new TableColumn<Client, String>("TELEPHONE");
+		TableColumn<Client, String> colTelephone = new TableColumn<>("TELEPHONE");
 		colTelephone.setMinWidth(60);
 		colTelephone.setCellValueFactory(new PropertyValueFactory<>("telephone"));
 		table.getColumns().add(colTelephone);
 
-		TableColumn<Client, String> colAdresse = new TableColumn<Client, String>("ADRESSE");
+		TableColumn<Client, String> colAdresse = new TableColumn<>("ADRESSE");
 		colAdresse.setMinWidth(60);
 		colAdresse.setCellValueFactory(new PropertyValueFactory<>("adresse"));
 		table.getColumns().add(colAdresse);
@@ -122,81 +127,68 @@ public class ClientIHM extends Application {
 		initTable(data);
     	txtId.setDisable(true);
 
-		btnAjouter.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-				if(txtNom.getText().length()!=0 && txtPrenom.getText().length()!=0) {
-					
-					Client c = new Client(1,txtNom.getText(),txtPrenom.getText(),txtTelephone.getText(),txtEmail.getText(),txtAdresse.getText());
-					long id = pm.create(c);
-					if(id > 0) {
-						c.setId(id);
-						data.add(c);
-						resetTextFields();
-					}
+		btnAjouter.setOnAction(e -> {
+			if(txtNom.getText().length()!=0 && txtPrenom.getText().length()!=0) {
+
+				Client c = new Client(1,txtNom.getText(),txtPrenom.getText(),txtTelephone.getText(),txtEmail.getText(),txtAdresse.getText());
+				long id = pm.create(c);
+				if(id > 0) {
+					c.setId(id);
+					data.add(c);
+					resetTextFields();
 				}
 			}
 		});
 				
-		btnNouveau.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-				resetTextFields();
-				table.getSelectionModel().clearSelection();
-			}
+		btnNouveau.setOnAction(e -> {
+			resetTextFields();
+			table.getSelectionModel().clearSelection();
 		});
 		
-		btnModifier.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-				if(txtId.getText()!="") {
-					Client p =pm.find(Integer.parseInt(txtId.getText()));
-					if(p!=null) {
-						p.setNom(txtNom.getText());
-						p.setPrenom(txtPrenom.getText());
-						p.setEmail(txtEmail.getText());
-						p.setTelephone(txtTelephone.getText());
-						p.setAdresse(txtAdresse.getText());
-						data.remove(indexOfTable, indexOfTable+1);
-						data.add(indexOfTable+1,p);
-						pm.update(p);
-						table.getSelectionModel().clearSelection();
-						resetTextFields();
-					}
+		btnModifier.setOnAction(e -> {
+			if(txtId.getText().length()!=0) {
+				Client p =pm.find(Integer.parseInt(txtId.getText()));
+				if(p!=null) {
+					p.setNom(txtNom.getText());
+					p.setPrenom(txtPrenom.getText());
+					p.setEmail(txtEmail.getText());
+					p.setTelephone(txtTelephone.getText());
+					p.setAdresse(txtAdresse.getText());
+					data.set(myIndexOf(list,p),p);
+//					list.set(myIndexOf(list,p),p);
+//					data.clear();
+//					data.addAll(list);
+//					pm.update(p);
+					table.getSelectionModel().clearSelection();
+					resetTextFields();
 				}
 			}
 		});
 		
-		btnSupprimer.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-				if(txtId.getText()!="") {
-					Client p =pm.find(Integer.parseInt(txtId.getText()));
-					if(p!=null) {
-						pm.delete(p);
-						data.remove(indexOfTable, indexOfTable+1);
-						table.getSelectionModel().clearSelection();
-						resetTextFields();
-					}
+		btnSupprimer.setOnAction(e -> {
+			if(txtId.getText().length()!=0) {
+				Client p =pm.find(Integer.parseInt(txtId.getText()));
+				if(p!=null) {
+					data.remove(myIndexOf(data,p), myIndexOf(data,p)+1);
+					pm.delete(p);
+					table.getSelectionModel().clearSelection();
+					resetTextFields();
 				}
 			}
 		});
 		
-		txtSearch.setOnKeyReleased(new EventHandler<KeyEvent>() {
-			@Override
-			public void handle(KeyEvent event) {
-				Predicate<Client> nom = i -> i.getNom().contains(txtSearch.getText());
-				Predicate<Client> id = i -> String.valueOf(i.getId()).contains(txtSearch.getText());
-				Predicate<Client> prenom = i -> i.getPrenom().contains(txtSearch.getText());
-				Predicate<Client> email = i -> i.getEmail().contains(txtSearch.getText());
-				Predicate<Client> telephone = i -> i.getTelephone().contains(txtSearch.getText());
-				Predicate<Client> adresse = i -> i.getAdresse().contains(txtSearch.getText());
-				Predicate<Client> predicate = id.or(nom.or(prenom.or(email.or(telephone.or(adresse)))));
-				
-				table.setItems(items);
-				items.setPredicate(predicate);
+		txtSearch.setOnKeyReleased(event -> {
+			Predicate<Client> nom = i -> i.getNom().contains(txtSearch.getText());
+			Predicate<Client> id = i -> String.valueOf(i.getId()).contains(txtSearch.getText());
+			Predicate<Client> prenom = i -> i.getPrenom().contains(txtSearch.getText());
+			Predicate<Client> email = i -> i.getEmail().contains(txtSearch.getText());
+			Predicate<Client> telephone = i -> i.getTelephone().contains(txtSearch.getText());
+			Predicate<Client> adresse = i -> i.getAdresse().contains(txtSearch.getText());
+			Predicate<Client> predicate = id.or(nom.or(prenom.or(email.or(telephone.or(adresse)))));
+
+			table.setItems(items);
+			items.setPredicate(predicate);
 //				table.getItems()
-			}
 		});
 		
 		navBar.getChildren().add(labelNav);
@@ -226,25 +218,21 @@ public class ClientIHM extends Application {
 		container.setRight(sideBarRight);
 		container.setCenter(grid);
 		
-		table.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Object>() {
-		    @Override
-		    public void changed(ObservableValue<?> observableValue, Object oldValue, Object newValue) {
-		        //Check whether item is selected and set value of selected item to Label
-		        if(table.getSelectionModel().getSelectedItem() != null) 
-		        {   
-		        	indexOfTable = table.getSelectionModel().getSelectedIndex();
-		        	resetTextFields();
-		        	Client p = table.getSelectionModel().getSelectedItem();
-		        	txtId.setText(String.valueOf(p.getId()));
-		        	txtNom.setText(p.getNom());
-		        	txtPrenom.setText(p.getPrenom());
-		        	txtEmail.setText(p.getEmail());
-		        	txtTelephone.setText(p.getTelephone());
-		        	txtAdresse.setText(p.getAdresse());
-		        	
-		        }
-		     }
-	     });
+		table.getSelectionModel().selectedItemProperty().addListener((ChangeListener<Object>) (observableValue, oldValue, newValue) -> {
+			//Check whether item is selected and set value of selected item to Label
+			if(table.getSelectionModel().getSelectedItem() != null)
+			{
+				resetTextFields();
+				Client p = table.getSelectionModel().getSelectedItem();
+				txtId.setText(String.valueOf(p.getId()));
+				txtNom.setText(p.getNom());
+				txtPrenom.setText(p.getPrenom());
+				txtEmail.setText(p.getEmail());
+				txtTelephone.setText(p.getTelephone());
+				txtAdresse.setText(p.getAdresse());
+
+			}
+		 });
 	
 
 		

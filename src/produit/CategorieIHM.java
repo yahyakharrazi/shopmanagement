@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
+import client.Client;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -33,17 +34,21 @@ public class CategorieIHM extends Application {
 	
 	private static CategorieDAOImpl pm = new CategorieDAOImpl();
 
-	static List<Categorie> list = null;
+	public CategorieIHM(){
+		list = pm.findAll();
+	}
+
+	public static List<Categorie> list = null;
 	
-	GridPane grid = new GridPane();
-	HBox navBar = new HBox(),sideBarLeft = new HBox();
-//	HBox sideBarLeft = new HBox();
+	public GridPane grid = new GridPane();
+	HBox navBar = new HBox();
+	HBox sideBarLeft = new HBox();
 	VBox sideBarRight = new VBox();
-	BorderPane container = new BorderPane();
+	public BorderPane container = new BorderPane();
 	
 	Label labelId = new Label("ID : ");
 	Label labelDesignation = new Label("Designation : ");
-	Label labelNav = new Label("This is header ");
+	Label labelNav = new Label("Gestion des Categories");
 	
 	TextField txtSearch = new TextField();
 	
@@ -56,8 +61,17 @@ public class CategorieIHM extends Application {
 	Button btnNouveau = new Button("Nouveau");
 	Button btnSupprimer = new Button("Supprimer");	
 
-	int indexOfTable=-1;
-	
+	public int myIndexOf(List<Categorie> al, Categorie c){
+		int i;
+		if(c!=null){
+			for(i=0;i<al.size();i++){
+				if(al.get(i).getId()==c.getId())
+					return i;
+			}
+		}
+		return -1;
+	}
+
 	private void resetTextFields() {
 		txtId.clear();
 		txtDesignation.clear();
@@ -66,18 +80,18 @@ public class CategorieIHM extends Application {
 	private void initTable(ObservableList<Categorie> data) {
 		table.setEditable(true);
 		table.setItems(data);
-		TableColumn<Categorie, Integer> colId = new TableColumn<Categorie, Integer>("ID");
+		TableColumn<Categorie, Integer> colId = new TableColumn<>("ID");
 		colId.setMinWidth(50);
-		colId.setCellValueFactory(new PropertyValueFactory<Categorie, Integer>("Id"));
+		colId.setCellValueFactory(new PropertyValueFactory<>("Id"));
 		table.getColumns().add(colId);
 
-		TableColumn<Categorie, String> colDesignation = new TableColumn<Categorie, String>("Designation");
+		TableColumn<Categorie, String> colDesignation = new TableColumn<>("Designation");
 		colDesignation.setMinWidth(120);
-		colDesignation.setCellValueFactory(new PropertyValueFactory<Categorie, String>("designation"));
+		colDesignation.setCellValueFactory(new PropertyValueFactory<>("designation"));
 		table.getColumns().add(colDesignation);
 	}
 	
-	private void initPanes(){
+	public void initPanes(){
 		ObservableList<Categorie> data = FXCollections.observableArrayList(list);
 		FilteredList<Categorie> items = new FilteredList<>(data);
 		items.setPredicate(null);
@@ -85,73 +99,57 @@ public class CategorieIHM extends Application {
 		
     	txtId.setDisable(true);
 
-		btnAjouter.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-				if(txtDesignation.getText().length()!=0) {
-					Categorie p = new Categorie(1,txtDesignation.getText());
-					long id = pm.create(p);
-					if(id > 0) {
-						p.setId(id);
-						data.add(p);
-						resetTextFields();
-					}
+		btnAjouter.setOnAction(e -> {
+			if(txtDesignation.getText().length()!=0) {
+				Categorie p = new Categorie(1,txtDesignation.getText());
+				long id = pm.create(p);
+				if(id > 0) {
+					p.setId(id);
+					data.add(p);
+					resetTextFields();
 				}
 			}
 		});
 				
-		btnNouveau.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-				resetTextFields();
-				table.getSelectionModel().clearSelection();
-			}
+		btnNouveau.setOnAction(e -> {
+			resetTextFields();
+			table.getSelectionModel().clearSelection();
 		});
 
 		
-		btnModifier.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-				if(txtId.getText()!="") {
-					Categorie p =pm.find(Integer.parseInt(txtId.getText()));
-					if(p!=null) {
-						p.setDesignation(txtDesignation.getText());
-						data.remove(indexOfTable, indexOfTable+1);
-						data.add(indexOfTable+1,p);
-						pm.update(p);
-						table.getSelectionModel().clearSelection();
-						resetTextFields();
-					}
+		btnModifier.setOnAction(e -> {
+			if(txtId.getText().length()!=0) {
+				Categorie p =pm.find(Integer.parseInt(txtId.getText()));
+				if(p!=null) {
+					p.setDesignation(txtDesignation.getText());
+					data.set(myIndexOf(data,p),p);
+					pm.update(p);
+					table.getSelectionModel().clearSelection();
+					resetTextFields();
 				}
 			}
 		});
 		
-		btnSupprimer.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-				if(txtId.getText()!="") {
-					Categorie p =pm.find(Integer.parseInt(txtId.getText()));
-					if(p!=null) {
-						pm.delete(p);
-						data.remove(indexOfTable, indexOfTable+1);
-						table.getSelectionModel().clearSelection();
-						resetTextFields();
-					}
+		btnSupprimer.setOnAction(e -> {
+			if(txtId.getText().length()!=0) {
+				Categorie p =pm.find(Integer.parseInt(txtId.getText()));
+				if(p!=null) {
+					data.remove(myIndexOf(data,p), myIndexOf(data,p)+1);
+					pm.delete(p);
+					table.getSelectionModel().clearSelection();
+					resetTextFields();
 				}
 			}
 		});
 		
-		txtSearch.setOnKeyReleased(new EventHandler<KeyEvent>() {
-			@Override
-			public void handle(KeyEvent event) {
-				Predicate<Categorie> designation = i -> i.getDesignation().contains(txtSearch.getText());
-				Predicate<Categorie> id = i -> String.valueOf(i.getId()).contains(txtSearch.getText());
-				Predicate<Categorie> predicate = designation.or(id);
-				
-				table.setItems(items);
-				items.setPredicate(predicate);
+		txtSearch.setOnKeyReleased(event -> {
+			Predicate<Categorie> designation = i -> i.getDesignation().contains(txtSearch.getText());
+			Predicate<Categorie> id = i -> String.valueOf(i.getId()).contains(txtSearch.getText());
+			Predicate<Categorie> predicate = designation.or(id);
+
+			table.setItems(items);
+			items.setPredicate(predicate);
 //				table.getItems()
-			}
 		});
 		
 		navBar.getChildren().add(labelNav);
@@ -167,28 +165,24 @@ public class CategorieIHM extends Application {
 		sideBarLeft.getStyleClass().add("sideBarLeft");
 		sideBarRight.getStyleClass().add("sideBarRight");
 		grid.getStyleClass().add("sideBarLeft");
-		
+
 		
 		container.setTop(navBar);
 //		container.setLeft(sideBarLeft);
 		container.setRight(sideBarRight);
 		container.setCenter(grid);
 		
-		table.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Object>() {
-		    @Override
-		    public void changed(ObservableValue<?> observableValue, Object oldValue, Object newValue) {
-		        //Check whether item is selected and set value of selected item to Label
-		        if(table.getSelectionModel().getSelectedItem() != null) 
-		        {   
-		        	indexOfTable = table.getSelectionModel().getSelectedIndex();
-		        	resetTextFields();
-		        	Categorie p = table.getSelectionModel().getSelectedItem();
-		        	txtId.setText(String.valueOf(p.getId()));
-		        	txtDesignation.setText(p.getDesignation());
-		        	
-		        }
-		     }
-	     });
+		table.getSelectionModel().selectedItemProperty().addListener((ChangeListener<Object>) (observableValue, oldValue, newValue) -> {
+			//Check whether item is selected and set value of selected item to Label
+			if(table.getSelectionModel().getSelectedItem() != null)
+			{
+				resetTextFields();
+				Categorie p = table.getSelectionModel().getSelectedItem();
+				txtId.setText(String.valueOf(p.getId()));
+				txtDesignation.setText(p.getDesignation());
+
+			}
+		 });
 	
 
 		
