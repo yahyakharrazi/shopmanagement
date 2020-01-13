@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le :  lun. 23 déc. 2019 à 16:48
+-- Généré le :  lun. 13 jan. 2020 à 21:41
 -- Version du serveur :  10.1.30-MariaDB
 -- Version de PHP :  7.2.2
 
@@ -21,6 +21,20 @@ SET time_zone = "+00:00";
 --
 -- Base de données :  `magasinmanagement2`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `admin`
+--
+
+CREATE TABLE `admin` (
+  `id` int(11) NOT NULL,
+  `username` varchar(55) DEFAULT NULL,
+  `password` varchar(55) DEFAULT NULL,
+  `firstname` varchar(55) DEFAULT NULL,
+  `lastname` varchar(55) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -63,9 +77,32 @@ CREATE TABLE `client` (
 --
 
 INSERT INTO `client` (`id`, `nom`, `prenom`, `telephone`, `email`, `adresse`) VALUES
-(1, 'ya', 'ya', '+21236558', 'aslas@fl.ma', 'lot lot lot a lot of lot'),
+(1, 'Client comptoir', 'Client comptoir', '---', '---', '---'),
 (2, 'fertlan', 'fertlan', 'fertlan', 'fertlan', 'fertlan'),
-(3, 'alwl', 'alwl', 'alwl', 'alwl', 'alwl');
+(3, 'alwl', 'alwl', 'alwl', 'alwl', 'alwl'),
+(4, 'prenom', 'name', '44444', 'emaail', 'aahahaha'),
+(5, 'jsakasj', 'ajkssakjkjsd', 'asjksajkj', 'askjsajakj', 'askaskj'),
+(6, 'cccaaa', 'client', '4545445', 'akslask@gmial.css', 'aasas'),
+(7, 'sskdlql', 'cliet', '0625417895', 'Qass@fsk;.com', 'lot 5 moghrib');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `compte`
+--
+
+CREATE TABLE `compte` (
+  `nom` varchar(55) DEFAULT NULL,
+  `solde` float DEFAULT NULL,
+  `code` varchar(3) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `compte`
+--
+
+INSERT INTO `compte` (`nom`, `solde`, `code`) VALUES
+('kharrazi', 10000, '111');
 
 -- --------------------------------------------------------
 
@@ -75,11 +112,21 @@ INSERT INTO `client` (`id`, `nom`, `prenom`, `telephone`, `email`, `adresse`) VA
 
 CREATE TABLE `lignecommande` (
   `id` int(11) NOT NULL,
-  `idProduit` int(11) NOT NULL,
-  `idVente` int(11) NOT NULL,
+  `produit` bigint(11) NOT NULL,
+  `vente` int(11) NOT NULL,
   `total` float NOT NULL,
   `quantite` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `lignecommande`
+--
+
+INSERT INTO `lignecommande` (`id`, `produit`, `vente`, `total`, `quantite`) VALUES
+(1, 1, 1, 15000, 150),
+(2, 3, 2, 5625, 45),
+(8, 3, 3, 1250, 10),
+(9, 4, 5, 1000, 4);
 
 -- --------------------------------------------------------
 
@@ -89,12 +136,24 @@ CREATE TABLE `lignecommande` (
 
 CREATE TABLE `paiement` (
   `id` int(11) NOT NULL,
-  `idVente` int(11) NOT NULL,
-  `num` int(11) NOT NULL,
-  `montant` double NOT NULL,
+  `vente` int(11) NOT NULL,
+  `total` float NOT NULL,
   `date` text NOT NULL,
-  `type` varchar(10) NOT NULL
+  `reglement` varchar(10) NOT NULL,
+  `proprietaire` varchar(55) DEFAULT NULL,
+  `typeTraite` varchar(10) DEFAULT NULL,
+  `dateEffet` text,
+  `datePrevue` text,
+  `numCheque` varchar(25) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `paiement`
+--
+
+INSERT INTO `paiement` (`id`, `vente`, `total`, `date`, `reglement`, `proprietaire`, `typeTraite`, `dateEffet`, `datePrevue`, `numCheque`) VALUES
+(4, 1, 10000, '12-01-2020', 'espece', NULL, NULL, NULL, NULL, NULL),
+(5, 1, 1000, '13-01-2020', 'cheque', NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -119,8 +178,7 @@ INSERT INTO `produit` (`id`, `designation`, `prixAchat`, `prixVente`, `categorie
 (2, 'ghh', 122, 122, 1),
 (3, 'asssas', 125, 125, 2),
 (4, 'cascettaa rafiq not found', 250, 250, 2),
-(5, 'daguia rafiq not found', 250, 280, 4),
-(6, 'aw', 180, 150, 3);
+(5, 'daguia rafiq not found', 250, 280, 4);
 
 -- --------------------------------------------------------
 
@@ -131,7 +189,7 @@ INSERT INTO `produit` (`id`, `designation`, `prixAchat`, `prixVente`, `categorie
 CREATE TABLE `vente` (
   `id` int(11) NOT NULL,
   `date` varchar(10) NOT NULL,
-  `idClient` int(11) NOT NULL,
+  `client` int(11) NOT NULL,
   `total` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -139,14 +197,26 @@ CREATE TABLE `vente` (
 -- Déchargement des données de la table `vente`
 --
 
-INSERT INTO `vente` (`id`, `date`, `idClient`, `total`) VALUES
-(1, '10/10/2018', 1, 155),
+INSERT INTO `vente` (`id`, `date`, `client`, `total`) VALUES
+(1, '10/10/2018', 1, 15000),
 (2, '10/10/2018', 1, 0),
-(3, '16/01/1988', 1, 0);
+(3, '16/01/1988', 1, 1250),
+(4, '10/12/2015', 1, 0),
+(5, '14/12/2011', 2, 1000),
+(6, '14/10/2011', 3, 0),
+(7, '2019-12-31', 2, 0),
+(8, '2020-01-04', 2, 0);
 
 --
 -- Index pour les tables déchargées
 --
+
+--
+-- Index pour la table `admin`
+--
+ALTER TABLE `admin`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `admin_username_uindex` (`username`);
 
 --
 -- Index pour la table `categorie`
@@ -164,7 +234,9 @@ ALTER TABLE `client`
 -- Index pour la table `lignecommande`
 --
 ALTER TABLE `lignecommande`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_commande_vente` (`vente`),
+  ADD KEY `fk_commande_produit` (`produit`);
 
 --
 -- Index pour la table `paiement`
@@ -184,11 +256,17 @@ ALTER TABLE `produit`
 --
 ALTER TABLE `vente`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_vente_client` (`idClient`);
+  ADD KEY `fk_vente_client` (`client`) USING BTREE;
 
 --
 -- AUTO_INCREMENT pour les tables déchargées
 --
+
+--
+-- AUTO_INCREMENT pour la table `admin`
+--
+ALTER TABLE `admin`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `categorie`
@@ -200,35 +278,42 @@ ALTER TABLE `categorie`
 -- AUTO_INCREMENT pour la table `client`
 --
 ALTER TABLE `client`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT pour la table `lignecommande`
 --
 ALTER TABLE `lignecommande`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT pour la table `paiement`
 --
 ALTER TABLE `paiement`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT pour la table `produit`
 --
 ALTER TABLE `produit`
-  MODIFY `id` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT pour la table `vente`
 --
 ALTER TABLE `vente`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Contraintes pour les tables déchargées
 --
+
+--
+-- Contraintes pour la table `lignecommande`
+--
+ALTER TABLE `lignecommande`
+  ADD CONSTRAINT `fk_commande_produit` FOREIGN KEY (`produit`) REFERENCES `produit` (`id`),
+  ADD CONSTRAINT `fk_commande_vente` FOREIGN KEY (`vente`) REFERENCES `vente` (`id`);
 
 --
 -- Contraintes pour la table `produit`
@@ -240,7 +325,7 @@ ALTER TABLE `produit`
 -- Contraintes pour la table `vente`
 --
 ALTER TABLE `vente`
-  ADD CONSTRAINT `fk_vente_client` FOREIGN KEY (`idClient`) REFERENCES `client` (`id`);
+  ADD CONSTRAINT `fk_vente_client` FOREIGN KEY (`client`) REFERENCES `client` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
