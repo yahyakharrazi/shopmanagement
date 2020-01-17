@@ -6,11 +6,20 @@ public class Compte implements Serializable {
     private String nom;
     private float solde;
     private String code;
+    private String rib;
+
+    public String getRib() {
+        return rib;
+    }
+
+    public void setRib(String rib) {
+        this.rib = rib;
+    }
 
     private static final long serialVersionUID = 1L;
 
-    public Compte(String nom, float solde, String code) {
-
+    public Compte(String nom, float solde, String code,String rib) {
+        this.rib = rib;
         this.nom = nom;
         this.solde = solde;
         this.code = code;

@@ -16,7 +16,7 @@ public class CommandeDAOImpl implements DAO{
 	PreparedStatement statement = null;
 	ResultSet rs;
 	public CommandeDAOImpl() {
-		DataConnection dc = new DataConnection();
+		DataConnection dc = DataConnection.getConnexion();
 		connection= dc.getConnection();
 		statement = dc.statement;
 	}

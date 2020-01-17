@@ -2,78 +2,31 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="96c66e5a-1df0-4604-9e85-2b3faf69f023" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/banque/Compte.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/banque/CompteController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/banque/ServiceProvider.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/media/category.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/media/store.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/f43bc0ba-5a00-41db-8e21-3e6ca7a027e7.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/f43bc0ba-5a00-41db-8e21-3e6ca7a027e7.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/MyCss.css" beforeDir="false" afterPath="$PROJECT_DIR$/bin/MyCss.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/client/Client.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/client/Client.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/banque/Compte.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/banque/Compte.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/banque/CompteController.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/banque/CompteController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/banque/ServiceProvider.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/banque/ServiceProvider.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/client/ClientDAOImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/client/ClientDAOImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/client/ClientIHM$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/client/ClientIHM$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/client/ClientIHM$3.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/client/ClientIHM$4.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/client/ClientIHM$5.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/client/ClientIHM$6.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/client/ClientIHM.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/client/ClientIHM.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/connexion/MainForm.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/connexion/MainForm.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/login/Admin.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/login/Admin.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/connexion/DataConnection.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/connexion/DataConnection.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/login/Login.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/login/Login.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/login/LoginIHM.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/login/LoginIHM.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/paiement/Paiement.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/paiement/Paiement.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/paiement/PaiementDAOImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/paiement/PaiementDAOImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/paiement/PaiementIHM$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/paiement/PaiementIHM$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/paiement/PaiementIHM$3.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/paiement/PaiementIHM$4.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/paiement/PaiementIHM$5.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/paiement/PaiementIHM$6.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/paiement/PaiementIHM.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/paiement/PaiementIHM.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/produit/CategorieDAOImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/produit/CategorieDAOImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/produit/CategorieIHM$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/produit/CategorieIHM$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/produit/CategorieIHM$3.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/produit/CategorieIHM$4.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/produit/CategorieIHM$5.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/produit/CategorieIHM$6.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/produit/CategorieIHM.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/produit/CategorieIHM.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/produit/ProductIHM$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/produit/ProductIHM$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/produit/ProductIHM$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/produit/ProductIHM$3.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/produit/ProductIHM$4.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/produit/ProductIHM$5.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/produit/ProductIHM$6.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/produit/ProductIHM.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/produit/ProductIHM.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/produit/ProductDAOImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/produit/ProductDAOImpl.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/vente/CommandeDAOImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/vente/CommandeDAOImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/vente/CommandeIHM$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/vente/CommandeIHM$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/vente/CommandeIHM$3.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/vente/CommandeIHM$4.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/vente/CommandeIHM$5.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/vente/CommandeIHM$6.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/vente/CommandeIHM$7.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/vente/CommandeIHM.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/vente/CommandeIHM.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/vente/Vente.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/vente/Vente.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/vente/VenteDAOImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/vente/VenteDAOImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/vente/VenteIHM$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/vente/VenteIHM$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/vente/VenteIHM$3.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/vente/VenteIHM$4.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/vente/VenteIHM$5.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/vente/VenteIHM$6.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/vente/VenteIHM.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/vente/VenteIHM.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MyCss.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/MyCss.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/banque/Compte.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/banque/Compte.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/banque/CompteController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/banque/CompteController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/banque/ServiceProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/banque/ServiceProvider.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/client/ClientDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/client/ClientDAOImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/client/ClientIHM.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/client/ClientIHM.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/connexion/MainForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/connexion/MainForm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/connexion/DataConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/connexion/DataConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/login/Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/login/Login.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/paiement/PaiementDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/paiement/PaiementDAOImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/paiement/PaiementIHM.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/paiement/PaiementIHM.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/produit/CategorieDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/produit/CategorieDAOImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/produit/CategorieIHM.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/produit/CategorieIHM.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/produit/ProductIHM.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/produit/ProductIHM.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/produit/ProductDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/produit/ProductDAOImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/vente/CommandeDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/vente/CommandeDAOImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/vente/CommandeIHM.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/vente/CommandeIHM.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/vente/VenteDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/vente/VenteDAOImpl.java" afterDir="false" />
@@ -110,6 +63,13 @@
         <item name="magasinmanagement2@localhost [2]" type="feb32156:DbDataSourceImpl" />
         <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
         <item name="magasinmanagement2: schema" type="ebfa3cd1:MariaImplModel$Schema" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="magasinmanagement2@localhost [2]" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="magasinmanagement2: schema" type="ebfa3cd1:MariaImplModel$Schema" />
+        <item name="compte: table" type="dbc44a63:MariaImplModel$Table" />
       </path>
     </expand>
     <select />
@@ -148,7 +108,7 @@
     <property name="aspect.path.notification.shown" value="true" />
     <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1577831879416" />
     <property name="database.console.LAST_STATE" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/media" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Game" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -167,7 +127,7 @@
       <recent name="C:\Users\User\eclipse-workspace\Magasin\src\media" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.ServiceProvider">
+  <component name="RunManager" selected="Application.MainForm">
     <configuration name="CategorieIHM" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="produit.CategorieIHM" />
       <module name="Magasin" />
@@ -181,12 +141,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ClientIHM" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="client.ClientIHM" />
+    <configuration name="LoginIHM" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="login.LoginIHM" />
       <module name="Magasin" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="client.*" />
+          <option name="PATTERN" value="login.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -234,19 +194,19 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.VenteIHM" />
-      <item itemvalue="Application.ClientIHM" />
       <item itemvalue="Application.MainForm" />
       <item itemvalue="Application.CategorieIHM" />
       <item itemvalue="Application.ServiceProvider" />
+      <item itemvalue="Application.LoginIHM" />
+      <item itemvalue="Application.VenteIHM" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.ServiceProvider" />
         <item itemvalue="Application.MainForm" />
-        <item itemvalue="Application.CategorieIHM" />
-        <item itemvalue="Application.ClientIHM" />
+        <item itemvalue="Application.ServiceProvider" />
         <item itemvalue="Application.VenteIHM" />
+        <item itemvalue="Application.LoginIHM" />
+        <item itemvalue="Application.CategorieIHM" />
       </list>
     </recent_temporary>
   </component>
@@ -259,6 +219,11 @@
               <path>
                 <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
                 <item name="root:magasinmanagement2@localhost [2]" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+              </path>
+              <path>
+                <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+                <item name="root:magasinmanagement2@localhost [2]" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+                <item name="com.intellij.database.console.session.MessageBusSession@35491ca0" type="9fbbdea:ServiceModel$ServiceNode" />
               </path>
             </expand>
             <select />
@@ -284,7 +249,14 @@
       <workItem from="1578050503720" duration="26496000" />
       <workItem from="1578342776190" duration="30314000" />
       <workItem from="1578741973479" duration="23392000" />
-      <workItem from="1578832193857" duration="17087000" />
+      <workItem from="1578832193857" duration="18882000" />
+      <workItem from="1578903153841" duration="1429000" />
+      <workItem from="1578990134805" duration="838000" />
+      <workItem from="1578991466043" duration="8455000" />
+      <workItem from="1579158288170" duration="605000" />
+      <workItem from="1579174946962" duration="599000" />
+      <workItem from="1579184145547" duration="1956000" />
+      <workItem from="1579206933856" duration="15785000" />
     </task>
     <servers />
   </component>
@@ -308,10 +280,10 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="488" y="79" key="#com.intellij.ide.util.MemberChooser" timestamp="1578838146158">
+    <state x="488" y="79" key="#com.intellij.ide.util.MemberChooser" timestamp="1579252581663">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="488" y="79" key="#com.intellij.ide.util.MemberChooser/0.0.1366.728@0.0.1366.728" timestamp="1578838146158" />
+    <state x="488" y="79" key="#com.intellij.ide.util.MemberChooser/0.0.1366.728@0.0.1366.728" timestamp="1579252581663" />
     <state x="363" y="91" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1578050479173">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -324,22 +296,26 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="363" y="168" key="DUMP_DIALOG_DIMENSION_KEY/0.0.1366.728@0.0.1366.728" timestamp="1578435561187" />
-    <state width="1322" height="227" key="GridCell.Tab.0.bottom" timestamp="1578865161228">
+    <state x="463" y="118" key="FileChooserDialogImpl" timestamp="1579036336807">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1322" height="227" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1578865161228" />
-    <state width="1322" height="227" key="GridCell.Tab.0.center" timestamp="1578865161228">
+    <state x="463" y="118" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1579036336807" />
+    <state width="1322" height="145" key="GridCell.Tab.0.bottom" timestamp="1579253189528">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1322" height="227" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1578865161228" />
-    <state width="1322" height="227" key="GridCell.Tab.0.left" timestamp="1578865161228">
+    <state width="1322" height="145" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1579253189528" />
+    <state width="1322" height="145" key="GridCell.Tab.0.center" timestamp="1579253189528">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1322" height="227" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1578865161228" />
-    <state width="1322" height="227" key="GridCell.Tab.0.right" timestamp="1578865161228">
+    <state width="1322" height="145" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1579253189528" />
+    <state width="1322" height="145" key="GridCell.Tab.0.left" timestamp="1579253189528">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1322" height="227" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1578865161228" />
+    <state width="1322" height="145" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1579253189528" />
+    <state width="1322" height="145" key="GridCell.Tab.0.right" timestamp="1579253189528">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1322" height="145" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1579253189528" />
     <state x="576" y="243" width="326" height="242" key="com.intellij.database.actions.DdlActions$DeleteProvider2$1" timestamp="1578847931308">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -348,26 +324,30 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="479" y="188" width="407" height="344" key="com.intellij.database.psi.DbRenamePsiElementProcessor.DbRenameDialog/0.0.1366.728@0.0.1366.728" timestamp="1578110204162" />
-    <state x="392" y="4" key="com.intellij.database.view.ui.AbstractDbRefactoringDialog" timestamp="1578838528033">
+    <state x="392" y="4" key="com.intellij.database.view.ui.AbstractDbRefactoringDialog" timestamp="1579244780600">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="392" y="4" key="com.intellij.database.view.ui.AbstractDbRefactoringDialog/0.0.1366.728@0.0.1366.728" timestamp="1578838528033" />
-    <state x="378" y="186" key="com.intellij.ide.util.TipDialog" timestamp="1578832203560">
+    <state x="392" y="4" key="com.intellij.database.view.ui.AbstractDbRefactoringDialog/0.0.1366.728@0.0.1366.728" timestamp="1579244780600" />
+    <state x="378" y="186" key="com.intellij.ide.util.TipDialog" timestamp="1579206934488">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="378" y="186" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1578832203560" />
+    <state x="378" y="186" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1579206934488" />
     <state x="330" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1578419223650">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="330" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1366.728@0.0.1366.728" timestamp="1578419223650" />
+    <state x="65" y="65" key="new project wizard" timestamp="1578903205400">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="65" y="65" key="new project wizard/0.0.1366.728@0.0.1366.728" timestamp="1578903205400" />
     <state x="339" y="157" key="run.anything.popup" timestamp="1578778801717">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="339" y="157" key="run.anything.popup/0.0.1366.728@0.0.1366.728" timestamp="1578778801717" />
-    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup" timestamp="1578847473933">
+    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup" timestamp="1579191153639">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup/0.0.1366.728@0.0.1366.728" timestamp="1578847473933" />
+    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup/0.0.1366.728@0.0.1366.728" timestamp="1579191153639" />
   </component>
   <component name="masterDetails">
     <states>

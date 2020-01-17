@@ -61,33 +61,33 @@ public class CommandeIHM extends Application {
 
 
 
-	GridPane grid = new GridPane();
+	GridPane grid2 = new GridPane();
 	HBox navBar = new HBox();
-	HBox sideBarLeft = new HBox();
-	VBox sideBarRight = new VBox();
-	BorderPane container = new BorderPane();
+	HBox sideBarLeft2 = new HBox();
+	VBox sideBarRight2 = new VBox();
+	BorderPane container2 = new BorderPane();
 	
-	Label labelId = new Label("ID : ");
+	Label labelIdCmd = new Label("ID : ");
 	Label labelVente = new Label("ID Vente : ");
-	Label labelTotal = new Label("Total : ");
+	Label labelTotalCmd = new Label("Total : ");
 	Label labelQuantite = new Label("Quantite : ");
 	Label labelProduct = new Label("Produit : ");
 	
 	Label labelNav = new Label("Commande form ");
 	
-	TextField txtSearch = new TextField();
+	TextField txtSearch2 = new TextField();
 	
-	TextField txtId = new TextField();
+	TextField txtIdCmd = new TextField();
 	TextField txtVente = new TextField();
-	TextField txtTotal = new TextField();
+	TextField txtTotalCmd = new TextField();
 	TextField txtQuantite = new TextField();
 	ChoiceBox<Product> comboProduct = null;
-	TableView<Commande> table = new TableView<>();
+	TableView<Commande> tableCmd = new TableView<>();
 			
-	Button btnModifier = new Button("Modifier");
-	Button btnAjouter = new Button("Ajouter");
-	Button btnNouveau = new Button("Nouveau");
-	Button btnSupprimer = new Button("Supprimer");	
+	Button btnModifierCmd = new Button("Modifier");
+	Button btnAjouterCmd = new Button("Ajouter");
+	Button btnNouveauCmd = new Button("Nouveau");
+	Button btnSupprimerCmd = new Button("Supprimer");
 
 	public int myIndexOf(List<Commande> al, Commande c){
 		int i;
@@ -100,195 +100,200 @@ public class CommandeIHM extends Application {
 		return -1;
 	}
 
+	public void loadComponents(){
+		txtIdCmd.setDisable(true);
+		txtVente.setDisable(true);
+		txtTotalCmd.setDisable(true);
+
+		navBar.getChildren().add(labelNav);
+
+		sideBarLeft2.getChildren().addAll(btnNouveauCmd,btnAjouterCmd,btnModifierCmd,btnSupprimerCmd);
+
+		grid2.addRow(0, labelIdCmd,txtIdCmd);
+		grid2.addRow(1, labelQuantite, txtQuantite);
+		grid2.addRow(2, labelTotalCmd, txtTotalCmd);
+		grid2.addRow(3, labelVente, txtVente);
+		grid2.addRow(4, labelProduct, comboProduct);
+		grid2.add(sideBarLeft2,0,5,2,1);
+		sideBarRight2.getChildren().addAll(txtSearch2,tableCmd);
+
+		navBar.getStyleClass().add("navBar");
+		navBar.getStyleClass().add("labelNav");
+		sideBarLeft2.getStyleClass().add("sideBarLeft");
+		sideBarRight2.getStyleClass().add("sideBarRight");
+		grid2.getStyleClass().add("sideBarLeft");
+
+		container2.setTop(navBar);
+//		container2.setLeft(sideBarLeft);
+		container2.setRight(sideBarRight2);
+		container2.setCenter(grid2);
+
+	}
+
 	public void loadCombo() {
 		comboProduct = new ChoiceBox<>(listProduct);
 		comboProduct.getSelectionModel().selectFirst();
 	}
 	
-	private void resetTextFields() {
-		txtId.clear();
+	private void resetTextFieldsCmd() {
+		txtIdCmd.clear();
 		txtVente.clear();
 		txtQuantite.clear();
-		txtTotal.clear();
+		txtTotalCmd.clear();
 	}
 	
-	private void initTable(ObservableList<Commande> data) {
-		table.setEditable(true);
-		table.setItems(data);
+	private void initTableCmd(ObservableList<Commande> data) {
+		tableCmd.setEditable(true);
+		tableCmd.setItems(data);
 		TableColumn<Commande, Integer> colId = new TableColumn<>("ID");
 		colId.setMinWidth(50);
 		colId.setCellValueFactory(new PropertyValueFactory<>("Id"));
-		table.getColumns().add(colId);
+		tableCmd.getColumns().add(colId);
 
 		TableColumn<Commande, String> colDesignation = new TableColumn<>("Quantite");
 		colDesignation.setMinWidth(120);
 		colDesignation.setCellValueFactory(new PropertyValueFactory<>("quantite"));
-		table.getColumns().add(colDesignation);
+		tableCmd.getColumns().add(colDesignation);
 		
 		TableColumn<Commande, Float> colPrixAchat = new TableColumn<>("Total");
 		colPrixAchat.setMinWidth(80);
 		colPrixAchat.setCellValueFactory(new PropertyValueFactory<>("total"));
-		table.getColumns().add(colPrixAchat);
+		tableCmd.getColumns().add(colPrixAchat);
 		
 		TableColumn<Commande, String> colPrixVente = new TableColumn<>("Vente");
 		colPrixVente.setMinWidth(80);
 		colPrixVente.setCellValueFactory(new PropertyValueFactory<>("vente"));
-		table.getColumns().add(colPrixVente);
+		tableCmd.getColumns().add(colPrixVente);
 		
 		TableColumn<Commande, String> colProduct = new TableColumn<>("Product");
 		colProduct.setMinWidth(80);
 		colProduct.setCellValueFactory(new PropertyValueFactory<>("product"));
-		table.getColumns().add(colProduct);
+		tableCmd.getColumns().add(colProduct);
 	}
 	
 	public void initPanes(){
-		ObservableList<Commande> data = FXCollections.observableArrayList(list);
-		FilteredList<Commande> items = new FilteredList<>(data);
-		items.setPredicate(null);
-		initTable(data);
-		
-    	txtId.setDisable(true);
-    	txtVente.setDisable(true);
-    	txtTotal.setDisable(true);
+		ObservableList<Commande> dataCmd = FXCollections.observableArrayList(list);
+		FilteredList<Commande> itemsCommand = new FilteredList<>(dataCmd);
+		itemsCommand.setPredicate(null);
+		initTableCmd(dataCmd);
 
     	txtQuantite.setOnKeyReleased(e -> {
 			if(txtQuantite.getText().length()==0)
-				txtTotal.setText("0");
+				txtTotalCmd.setText("0");
 			else
-				txtTotal.setText(valueOf((cm.find(comboProduct.getValue().getId()).getPrixVente()*Integer.parseInt(txtQuantite.getText()))));
+				txtTotalCmd.setText(valueOf((cm.find(comboProduct.getValue().getId()).getPrixVente()*Integer.parseInt(txtQuantite.getText()))));
 		});
     	
-		btnAjouter.setOnAction(e -> {
+		btnAjouterCmd.setOnAction(e -> {
 			if(txtVente.getText().length()!=0 && txtQuantite.getText().length()!=0) {
 				float soustotal = (cm.find(comboProduct.getValue().getId()).getPrixVente()*Integer.parseInt(txtQuantite.getText()));
 				Commande cmd = new Commande(1,cm.find(comboProduct.getValue().getId()),vm.find(Long.parseLong(txtVente.getText())),Integer.parseInt(txtQuantite.getText()), soustotal);
-				for (Commande c : list) {
+				for (Commande c : tableCmd.getItems()) {
 					map.put(c.getProduct().getId(),c);
 				}
 
 				System.out.println(map);
 
 				if(map.containsKey(cmd.getProduct().getId())){
+					System.out.println("what im i doing here");
 					cmd.setQuantite(cmd.getQuantite()+map.get(cmd.getProduct().getId()).getQuantite());
 					cmd.setTotal(cmd.getQuantite()*cmd.getProduct().getPrixVente());
-					data.set(myIndexOf(list,cmd),cmd);
+					dataCmd.set(myIndexOf(list,cmd),cmd);
 					pm.update(cmd);
-					table.getSelectionModel().clearSelection();
-					resetTextFields();
+					tableCmd.getSelectionModel().clearSelection();
+					resetTextFieldsCmd();
 				}
 				else{
 					long id = pm.create(cmd);
+					System.out.println(id);
 					if(id > 0) {
+						System.out.println("what is this");
 						cmd.setId(id);
-						data.add(cmd);
-						resetTextFields();
+//						tableCmd.setItems(null);
+//						dataCmd.add(cmd);
+						itemsCommand.add(cmd);
+						tableCmd.setItems(itemsCommand);
+
+						resetTextFieldsCmd();
 					}
 				}
 
-				System.out.println(map);
+//				System.out.println(map);
 
 			}
 		});
 				
-		btnNouveau.setOnAction(e -> {
-			resetTextFields();
-			table.getSelectionModel().clearSelection();
+		btnNouveauCmd.setOnAction(e -> {
+			resetTextFieldsCmd();
+			tableCmd.getSelectionModel().clearSelection();
 		});
 		
-		btnModifier.setOnAction(e -> {
-			if(txtId.getText().length()!=0) {
-				Commande p =pm.find(Integer.parseInt(txtId.getText()));
+		btnModifierCmd.setOnAction(e -> {
+			if(txtIdCmd.getText().length()!=0) {
+				Commande p =pm.find(Integer.parseInt(txtIdCmd.getText()));
 				if(p!=null) {
 					p.setVente(vm.find(Integer.parseInt(txtVente.getText())));
 					p.setQuantite(Integer.parseInt(txtQuantite.getText()));
-					p.setTotal(Float.parseFloat(txtTotal.getText()));
+					p.setTotal(Float.parseFloat(txtTotalCmd.getText()));
 					p.setProduct(cm.find(comboProduct.getValue().getId()));
-					data.set(myIndexOf(data,p),p);
+					dataCmd.set(myIndexOf(dataCmd,p),p);
+
 					pm.update(p);
-					table.getSelectionModel().clearSelection();
-					resetTextFields();
+
+					tableCmd.getSelectionModel().clearSelection();
+					resetTextFieldsCmd();
 				}
 			}
 		});
 		
-		btnSupprimer.setOnAction(e -> {
-			if(txtId.getText().length()!=0) {
-				Commande p =pm.find(Integer.parseInt(txtId.getText()));
+		btnSupprimerCmd.setOnAction(e -> {
+			if(txtIdCmd.getText().length()!=0) {
+				Commande p =pm.find(Integer.parseInt(txtIdCmd.getText()));
 				if(p!=null) {
-					data.remove(myIndexOf(data,p));
+					dataCmd.remove(myIndexOf(dataCmd,p));
 					pm.delete(p);
-					table.getSelectionModel().clearSelection();
-					resetTextFields();
+					tableCmd.getSelectionModel().clearSelection();
+					resetTextFieldsCmd();
 				}
 			}
 		});
 		
-		txtSearch.setOnKeyReleased(event -> {
-			Predicate<Commande> id = i -> valueOf(i.getId()).contains(txtSearch.getText());
-			Predicate<Commande> quantite = i -> valueOf(i.getQuantite()).contains(txtSearch.getText());
-			Predicate<Commande> total = i -> valueOf(i.getTotal()).contains(txtSearch.getText());
-			Predicate<Commande> vente = i -> valueOf(i.getVente().getId()).contains(txtSearch.getText());
-			Predicate<Commande> product = i -> valueOf(i.getProduct()).contains(txtSearch.getText());
+		txtSearch2.setOnKeyReleased(event -> {
+			Predicate<Commande> id = i -> valueOf(i.getId()).contains(txtSearch2.getText());
+			Predicate<Commande> quantite = i -> valueOf(i.getQuantite()).contains(txtSearch2.getText());
+			Predicate<Commande> total = i -> valueOf(i.getTotal()).contains(txtSearch2.getText());
+			Predicate<Commande> vente = i -> valueOf(i.getVente().getId()).contains(txtSearch2.getText());
+			Predicate<Commande> product = i -> valueOf(i.getProduct()).contains(txtSearch2.getText());
 			Predicate<Commande> predicate = quantite.or(total.or(vente.or(product.or(id))));
 
-			table.setItems(items);
-			items.setPredicate(predicate);
-//				table.getItems()
+			tableCmd.setItems(itemsCommand);
+			itemsCommand.setPredicate(predicate);
+//				tableCmd.getItems()
 		});
-		
-		navBar.getChildren().add(labelNav);
-		
-		sideBarLeft.getChildren().addAll(btnNouveau,btnAjouter,btnModifier,btnSupprimer);
-				
-		grid.addRow(0, labelId,txtId);
-		grid.addRow(1, labelQuantite, txtQuantite);
-		grid.addRow(2, labelTotal, txtTotal);
-		grid.addRow(3, labelVente, txtVente);
-		grid.addRow(4, labelProduct, comboProduct);
-		grid.add(sideBarLeft,0,5,2,1);
-		sideBarRight.getChildren().addAll(txtSearch,table);
-		
-		navBar.getStyleClass().add("navBar");
-		navBar.getStyleClass().add("labelNav");
-		sideBarLeft.getStyleClass().add("sideBarLeft");
-		sideBarRight.getStyleClass().add("sideBarRight");
-		grid.getStyleClass().add("sideBarLeft");
-		
-		
-		container.setTop(navBar);
-//		container.setLeft(sideBarLeft);
-		container.setRight(sideBarRight);
-		container.setCenter(grid);
-		
-		table.getSelectionModel().selectedItemProperty().addListener((ChangeListener<Object>) (observableValue, oldValue, newValue) -> {
+
+		tableCmd.getSelectionModel().selectedItemProperty().addListener((ChangeListener<Object>) (observableValue, oldValue, newValue) -> {
 			//Check whether item is selected and set value of selected item to Label
-			if(table.getSelectionModel().getSelectedItem() != null)
+			if(tableCmd.getSelectionModel().getSelectedItem() != null)
 			{
-				resetTextFields();
-				Commande p = table.getSelectionModel().getSelectedItem();
-				txtId.setText(valueOf(p.getId()));
+				resetTextFieldsCmd();
+				Commande p = tableCmd.getSelectionModel().getSelectedItem();
+				txtIdCmd.setText(valueOf(p.getId()));
 				txtVente.setText(valueOf(p.getVente().getId()));
 				txtQuantite.setText(valueOf(p.getQuantite()));
-				txtTotal.setText(valueOf(p.getTotal()));
+				txtTotalCmd.setText(valueOf(p.getTotal()));
 				comboProduct.getSelectionModel().select((int)p.getProduct().getId()-1);
 			}
 		 });
-	
 
-		
 	}
 
-	public static void main(String[] args) {
-		
-		Application.launch(args);
-		
-	}
+	public static void main(String[] args) {	Application.launch(args); }
 
 	@Override
 	public void start(Stage window) throws Exception {
 
 		loadCombo();
-		scene = new Scene(container);
+		scene = new Scene(container2);
 		window.setTitle("title");
 		window.setHeight(600);
 		window.setWidth(1000);

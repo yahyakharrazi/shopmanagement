@@ -13,7 +13,7 @@ public class Login {
     ResultSet rs = null;
 
     public Login(){
-        DataConnection dc = new DataConnection();
+        DataConnection dc = DataConnection.getConnexion();
         connection= dc.getConnection();
         statement = dc.statement;
     }

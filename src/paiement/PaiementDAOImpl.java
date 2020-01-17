@@ -18,7 +18,7 @@ public class PaiementDAOImpl implements DAO {
     ResultSet rs;
 
     public PaiementDAOImpl() {
-        DataConnection dc = new DataConnection();
+        DataConnection dc = DataConnection.getConnexion();
         connection= dc.getConnection();
         statement = dc.statement;
     }

@@ -19,7 +19,7 @@ public class VenteDAOImpl implements DAO{
 	PreparedStatement statement = null;
 	
 	public VenteDAOImpl() {
-		DataConnection dc = new DataConnection();
+		DataConnection dc = DataConnection.getConnexion();
 		connection= dc.getConnection();
 		statement = dc.statement;
 	}

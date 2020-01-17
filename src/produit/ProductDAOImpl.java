@@ -15,7 +15,7 @@ public class ProductDAOImpl implements DAO{
 	PreparedStatement statement = null;
 	
 	public ProductDAOImpl() {
-		DataConnection dc = new DataConnection();
+		DataConnection dc = DataConnection.getConnexion();
 		connection= dc.getConnection();
 		statement = dc.statement;
 	}

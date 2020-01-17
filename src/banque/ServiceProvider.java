@@ -30,17 +30,19 @@ public class ServiceProvider {
                 InputStream is = service.getInputStream();
                 ObjectInputStream dis = new ObjectInputStream(is);
                 c = (Compte) dis.readObject();
-                System.out.println(c.getNom());
+                System.out.println(c.getRib());
                 OutputStream os = service.getOutputStream();
                 DataOutputStream dos = new DataOutputStream(os);
-                Compte cmpt = new CompteController().getCompte(c.getNom());
-                System.out.println(cmpt.getNom());
+                Compte cmpt = new CompteController().getCompte(c.getRib(),c.getCode());
+                System.out.println(cmpt.getRib());
 
                 if(cmpt!=null){
                     if(cmpt.getSolde()>c.getSolde()){
+                        System.out.println("was it good");
                         dos.writeByte(1);
                     }
                     else {
+                        System.out.println("was it bad");
                         dos.writeByte(0);
                     }
                 }

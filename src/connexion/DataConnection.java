@@ -10,7 +10,7 @@ public class DataConnection {
 	private Connection connection;
 	public PreparedStatement statement = null;
 	
-	public DataConnection() {
+	private DataConnection() {
 		String url = "jdbc:mysql://localhost:3306/magasinmanagement2";
 		try {
 			Class.forName("com.mysql.jdbc.Driver");

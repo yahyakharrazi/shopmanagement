@@ -15,7 +15,7 @@ public class CategorieDAOImpl implements DAO{
 	PreparedStatement statement = null;
 	
 	public CategorieDAOImpl() {
-		DataConnection dc = new DataConnection();
+		DataConnection dc = DataConnection.getConnexion();
 		connection= dc.getConnection();
 		statement = dc.statement;
 	}

@@ -2,6 +2,7 @@ package paiement;
 
 import banque.Compte;
 import client.Client;
+import client.ClientDAOImpl;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -147,20 +148,26 @@ public class PaiementIHM extends Application {
         dp.setValue(LocalDate.now());
         txtId.setDisable(true);
 
+        txtVente.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("\\d*")) {
+                txtVente.setText(newValue.replaceAll("[^\\d]", ""));
+            }
+        });
+
+        txtTotal.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("\\d*")) {
+                txtTotal.setText(newValue.replaceAll("[^\\d]", ""));
+            }
+        });
+
         System.out.println(comboCategorie.getValue());
 
         btnAjouter.setOnAction(e -> {
             if(txtVente.getText().length()!=0 && txtTotal.getText().length()!=0) {
 //            if(true) {
                 Paiement p = new Paiement(1,vm.find(Long.parseLong(txtVente.getText())),Float.parseFloat(txtTotal.getText()), dp.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")), comboCategorie.getValue().toString());
-
+//                long id=0;
                 switch (comboCategorie.getValue().toString()){
-                    case "espece":
-
-                        break;
-                    case "cheque":
-
-                        break;
                     case "online":
                         Dialog<Pair<String, String>> dialog = new Dialog<>();
                         dialog.setTitle("Cmi paiement");
@@ -175,11 +182,23 @@ public class PaiementIHM extends Application {
                         gridPane.setPadding(new Insets(20, 150, 10, 10));
 
                         TextField proprietaire = new TextField();
-                        proprietaire.setPromptText("Propietaire");
+                        proprietaire.setPromptText("RIB");
                         TextField code = new TextField();
                         code.setPromptText("Code");
 
-                        gridPane.addRow(0,new Label("Proprietiare : "),proprietaire);
+                        proprietaire.textProperty().addListener((observable, oldValue, newValue) -> {
+                            if (!newValue.matches("\\d*")) {
+                                proprietaire.setText(newValue.replaceAll("[^\\d]", ""));
+                            }
+                        });
+
+                        code.textProperty().addListener((observable, oldValue, newValue) -> {
+                            if (!newValue.matches("\\d*")) {
+                                code.setText(newValue.replaceAll("[^\\d]", ""));
+                            }
+                        });
+
+                        gridPane.addRow(0,new Label("RIB : "),proprietaire);
                         gridPane.addRow(1,new Label("Code : "),code);
 
                         dialog.getDialogPane().setContent(gridPane);
@@ -199,20 +218,22 @@ public class PaiementIHM extends Application {
 
                         result.ifPresent(pair -> {
                             try {
-                                Compte c = new Compte(proprietaire.getText(),Float.parseFloat(txtTotal.getText()), code.getText());
+                                Compte c = new Compte((new ClientDAOImpl().find(vm.find(Integer.parseInt(txtVente.getText())).getClient().getId())).getNom(),Float.parseFloat(txtTotal.getText()), code.getText(),proprietaire.getText());
                                 Socket s = new Socket("localhost", 8818);
                                 OutputStream os = s.getOutputStream();
                                 ObjectOutputStream dos = new ObjectOutputStream(os);
                                 dos.writeObject(c);
                                 InputStream is = s.getInputStream();
                                 DataInputStream dis = new DataInputStream(is);
-                                System.out.println(String.valueOf(dis.readByte()));
-                                long id = pm.create(p);
-
-                                if(id > 0) {
-                                    p.setId(id);
-                                    data.add(p);
-                                    resetTextFields();
+                                String res = String.valueOf(dis.readByte());
+                                System.out.println(res);
+                                if(res.equals("1")) {
+                                    long id = pm.create(p);
+                                    if (id > 0) {
+                                        p.setId(id);
+                                        data.add(p);
+                                        resetTextFields();
+                                    }
                                 }
 
                                 s.close();
@@ -224,8 +245,14 @@ public class PaiementIHM extends Application {
                         });
 
                         break;
-                    case "traites":
+                    default :
+                        long id = pm.create(p);
 
+                        if(id > 0) {
+                            p.setId(id);
+                            data.add(p);
+                            resetTextFields();
+                        }
                         break;
                 }
 //                long id = pm.create(p);
